@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -23,22 +23,22 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 
-export const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={"#"}
-  >
-    {children}
-  </Link>
-);
+// export const NavLink = ({ children }: { children: ReactNode }) => (
+//   <Link
+//     px={2}
+//     py={1}
+//     rounded={"md"}
+//     _hover={{
+//       textDecoration: "none",
+//       bg: useColorModeValue("gray.200", "gray.700"),
+//     }}
+//     href={"#"}
+//   >
+//     {children}
+//   </Link>
+// );
 
-export default function NavBar() {
+export const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -67,9 +67,10 @@ export default function NavBar() {
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Select placeholder="Filter by">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="option1">Popularity</option>
+                <option value="option2">Average Rating </option>
+                <option value="option3">Release Date</option>
+                <option value="option3">Top grossing </option>
               </Select>
 
               <Button onClick={toggleColorMode}>
@@ -114,4 +115,4 @@ export default function NavBar() {
       </Box>
     </>
   );
-}
+};

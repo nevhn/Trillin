@@ -11,13 +11,15 @@ import {
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo";
-import NavBar, { NavLink } from "./Components/NavBar/NavBar";
+import { NavBar } from "./Components/NavBar/NavBar";
+import { Home } from "./Pages/Home/Home";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <NavBar />
+    <Home></Home>
     {/* <NavLink children={"Hello"} /> */}
-    <Box textAlign="center" fontSize="xl">
+    {/* <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>
         <ColorModeSwitcher justifySelf="flex-end" />
         <VStack spacing={8}>
@@ -36,6 +38,6 @@ export const App = () => (
           </Link>
         </VStack>
       </Grid>
-    </Box>
+    </Box> */}
   </ChakraProvider>
 );
