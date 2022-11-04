@@ -5,64 +5,64 @@ import {
   SimpleGrid,
   Center,
   Container,
+  Flex,
+  Spacer,
+  Img,
+  Heading,
+  Text,
+  Fade,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export const Home = () => {
+  const { isOpen, onToggle } = useDisclosure();
+
   return (
-    <Container>
-      {/* <Box bg="rebeccapurple" minW={"400px"} minH={"67vh"} display={"grid"}> */}
-      <Box bg="aliceblue">
-        <SimpleGrid
-          // minChildWidth={"12px"}
-          columns={[2, null, 3, 4, 5]}
-          spacing={10}
+    <Flex flexWrap={"wrap"} bg={"rebeccapurple"}>
+      <Box
+        className="movie"
+        bg="red"
+        w={"300px"}
+        overflow={"hidden"}
+        pos={"relative"}
+        onMouseEnter={onToggle}
+        onMouseLeave={onToggle}
+      >
+        <Img
+          w={"100%"}
+          src="https://m.media-amazon.com/images/M/MV5BODZkZjUxNmEtMGEyOS00ZDY5LTkxZDMtZTJkZDBiZTkyOWRkXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg"
+        />
+        <Flex
+          bg={"blue.200"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
         >
-          <Box bg="tomato" w="100px" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-          <Box bg="tomato" h="80px"></Box>
-        </SimpleGrid>
+          <Heading as="h3" m="0" size="lg">
+            Neon Genesis Evangelion
+          </Heading>
+          <Text as="span" color="darkred" fontWeight="bold">
+            8.5
+          </Text>
+          <Fade in={isOpen}>
+            <Box
+              className="overview"
+              bg={"pink"}
+              pos="absolute"
+              maxHeight="100%"
+              left="0"
+              bottom="0"
+              right="0"
+              overflow="auto"
+            >
+              <Heading as="h3" m="0" size="lg">
+                Overview
+              </Heading>
+              A teenage boy finds himself recruited as a member of an elite team
+              of pilots by his father.
+            </Box>
+          </Fade>
+        </Flex>
       </Box>
-      {/* </Box> */}
-      {/* <Box> */}
-      {/* <Grid
-          justifyItems={"stretch"}
-          templateColumns="repeat(12,calc(8.33333% - .91667 * 1.5rem - 0rem))"
-          gap={2}
-        >
-          <GridItem
-            colSpan={2}
-            minW={"auto"}
-            w="100%"
-            display={"inline-flex"}
-            flexDirection={"column"}
-            position={"relative"}
-            bg="blue.500"
-          >
-            <Box w= "100%">Hello</Box>
-          </GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-          <GridItem w="100%" h="10" bg="blue.500"></GridItem>
-        </Grid> */}
-      {/* </Box> */}
-    </Container>
+    </Flex>
   );
 };
