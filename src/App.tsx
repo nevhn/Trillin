@@ -7,17 +7,20 @@ import {
   VStack,
   Code,
   Grid,
-  theme,
+  // theme,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo";
 import { NavBar } from "./Components/NavBar/NavBar";
+import { Footer } from "./Components/Footer/Footer";
 import { Home } from "./Pages/Home/Home";
+import theme from "./theme";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <NavBar />
-    <Home></Home>
+    <Home />
+    <Footer />
     {/* <NavLink children={"Hello"} /> */}
     {/* <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>

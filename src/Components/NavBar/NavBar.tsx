@@ -43,17 +43,19 @@ export const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={10}>
+      <Box
+        bg={useColorModeValue("gray.100", "#201C1C")}
+        px={10}
+        mt="1rem"
+        boxShadow={"md"}
+      >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box>
-            <Text
-              fontFamily={"heading"}
-              color={useColorModeValue("gray.800", "white")}
-              fontWeight={"extrabold"}
-            >
-              Trillin
-            </Text>
-          </Box>
+          <Heading
+            color={useColorModeValue("gray.800", "white")}
+            fontWeight={"black"}
+          >
+            Trillin
+          </Heading>
 
           <Flex ml={"auto"} gap={2} w={"lg"} mr={5}>
             <Input placeholder="Search movie" />
