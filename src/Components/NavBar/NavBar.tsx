@@ -39,6 +39,9 @@ import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 // );
 
 export const NavBar = () => {
+  /**
+   * Add divider between theme button
+   */
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -54,11 +57,16 @@ export const NavBar = () => {
             color={useColorModeValue("gray.800", "white")}
             fontWeight={"black"}
           >
-            Trillin
+            <Link href={"/"}>Trillin</Link>
           </Heading>
 
-          <Flex ml={"auto"} gap={2} w={"lg"} mr={5}>
-            <Input placeholder="Search movie" />
+          <Flex ml={"auto"} gap={2} w={"md"} mr={5}>
+            <Input
+              bg="gray.200"
+              _placeholder={{ color: "gray.700" }}
+              textAlign={"center"}
+              placeholder="Search movie"
+            />
             <IconButton
               colorScheme="blue"
               aria-label="Search Movies"
@@ -105,10 +113,19 @@ export const NavBar = () => {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your favorites</MenuItem>
-                  <MenuItem>Your watch list</MenuItem>
-                  <MenuItem>Your completed list</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem>
+                    {" "}
+                    <Link href="/favorites"> Your favorites </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href="/watch-list"> Your watch list </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href="/completed-list"> Your completed list </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href="/logout"> Logout</Link>{" "}
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Stack>

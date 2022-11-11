@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import {
   ChakraProvider,
   Box,
@@ -10,16 +11,50 @@ import {
   // theme,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import theme from "./theme";
 import { Logo } from "./Logo";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Footer } from "./Components/Footer/Footer";
 import { Home } from "./Pages/Home/Home";
-import theme from "./theme";
+import { MovieInfo } from "./Pages/MovieInfo/MovieInfo";
+import { RouteError } from "./Pages/Error/RouteError";
+import { Favorites } from "./Pages/Favorites/Favorites";
+import { WatchList } from "./Pages/WatchList/WatchList";
+import { CompletedList } from "./Pages/CompletedList/CompletedList";
+import { Logout } from "./Pages/Logout/Logout";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <RouteError />,
+  },
+  {
+    path: "movie-info",
+    element: <MovieInfo />,
+  },
+  {
+    path: "favorites",
+    element: <Favorites />,
+  },
+  {
+    path: "watch-list",
+    element: <WatchList />,
+  },
+  {
+    path: "completed-list",
+    element: <CompletedList />,
+  },
+  {
+    path: "logout",
+    element: <Logout />,
+  },
+]);
 
 export const App = () => (
   <ChakraProvider theme={theme}>
     <NavBar />
-    <Home />
+    <RouterProvider router={router} />
     <Footer />
     {/* <NavLink children={"Hello"} /> */}
     {/* <Box textAlign="center" fontSize="xl">

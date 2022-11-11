@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Box,
   Grid,
@@ -6,10 +7,12 @@ import {
   Center,
   Container,
   Flex,
+  
   Spacer,
   Img,
   Heading,
   Text,
+  Link,
   Fade,
   useDisclosure,
   useColorMode,
@@ -47,7 +50,7 @@ export const Movie = () => {
         letterSpacing="0.5px"
         bg={"eee"}
       >
-        <Heading as="h3" m="0" size="lg">
+        <Heading as="h3" m="0" size="lg" fontWeight='bold'>
           Neon Genesis Evangelion
         </Heading>
         <Text
@@ -70,12 +73,20 @@ export const Movie = () => {
             bottom="0"
             right="0"
           >
+            <Heading as="h3" mt="0" size="md" color={textOverview}>
+              October 4, 1995
+            </Heading>
             <Heading as="h3" mt="0" size="lg" color={textOverview}>
               Overview
             </Heading>
             <Text color={textOverview}>
               A teenage boy finds himself recruited as a member of an elite team
               of pilots by his father.
+            </Text>
+            <Text color={textOverview} >
+              <Link color='teal.500' href='/movie-info' isExternal>
+            More info <ExternalLinkIcon mx='2px' />
+              </Link>
             </Text>
           </Box>
         </Fade>
