@@ -22,6 +22,11 @@ import { Favorites } from "./Pages/Favorites/Favorites";
 import { WatchList } from "./Pages/WatchList/WatchList";
 import { CompletedList } from "./Pages/CompletedList/CompletedList";
 import { Logout } from "./Pages/Logout/Logout";
+import { BgCircle } from "./Components/BgCircle/BgCircle";
+
+import axios from "axios";
+
+const fetchMovie = () => {};
 
 const router = createBrowserRouter([
   {
@@ -53,6 +58,7 @@ const router = createBrowserRouter([
 
 export const App = () => (
   <ChakraProvider theme={theme}>
+    {/* <BgCircle /> */}
     <NavBar />
     <RouterProvider router={router} />
     <Footer />

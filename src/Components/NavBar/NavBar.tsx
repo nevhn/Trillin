@@ -52,27 +52,13 @@ export const NavBar = () => {
         mt="1rem"
         boxShadow={"md"}
       >
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Flex h={16} alignItems={"center"} justifyContent={"space-around"}>
           <Heading
             color={useColorModeValue("gray.800", "white")}
             fontWeight={"black"}
           >
             <Link href={"/"}>Trillin</Link>
           </Heading>
-
-          <Flex ml={"auto"} gap={2} w={"md"} mr={5}>
-            <Input
-              bg="gray.200"
-              _placeholder={{ color: "gray.700" }}
-              textAlign={"center"}
-              placeholder="Search movie"
-            />
-            <IconButton
-              colorScheme="blue"
-              aria-label="Search Movies"
-              icon={<SearchIcon />}
-            />
-          </Flex>
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
@@ -83,6 +69,23 @@ export const NavBar = () => {
                 <option value="option3">Top grossing </option>
               </Select>
 
+              <Flex className="search" gap={"1"}>
+                <Input
+                  w="sm"
+                  border="none"
+                  whiteSpace={"nowrap"}
+                  bg="gray.200"
+                  _placeholder={{ color: "gray.700" }}
+                  textAlign={"center"}
+                  placeholder="Search movie"
+                />
+                <IconButton
+                  m="0"
+                  colorScheme="blue"
+                  aria-label="Search Movies"
+                  icon={<SearchIcon />}
+                />
+              </Flex>
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
