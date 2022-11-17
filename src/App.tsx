@@ -24,10 +24,6 @@ import { CompletedList } from "./Pages/CompletedList/CompletedList";
 import { Logout } from "./Pages/Logout/Logout";
 import { BgCircle } from "./Components/BgCircle/BgCircle";
 
-import axios from "axios";
-
-const fetchMovie = () => {};
-
 const router = createBrowserRouter([
   {
     path: "/",

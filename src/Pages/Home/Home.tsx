@@ -15,10 +15,25 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import { useEffect, useState } from "react";
 import { Movie } from "../../Components/Movie/Movie";
+import axios from "axios";
 
 export const Home = () => {
+  const [movie, setMovie] = useState({});
+
+  const fetchMovie = async () => {
+    const response = await axios(
+      "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1"
+    );
+    setMovie(response.data);
+  };
+
+  useEffect(() => {
+    fetchMovie();
+    console.log(movie);
+  }, []);
+
   return (
     <Container
       maxW={{ base: "100ch", md: "", lg: "200ch", xl: "1000ch" }}
