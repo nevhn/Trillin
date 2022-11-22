@@ -15,23 +15,23 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Movie } from "../../Components/Movie/Movie";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { Movie } from "../../Components/Movie/Movie";
 
 export const Home = () => {
-  const [movie, setMovie] = useState({});
+  const [movies, setMovie] = useState<any[]>([]);
 
   const fetchMovie = async () => {
     const response = await axios(
       "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1"
     );
-    setMovie(response.data);
+    setMovie(response.data.results);
+    console.log(response.data.results);
   };
 
   useEffect(() => {
     fetchMovie();
-    console.log(movie);
   }, []);
 
   return (
@@ -55,6 +55,11 @@ export const Home = () => {
         // direction={{ base: "column-reverse", md: "row" }}
         // bg={["skyblue", "blue", "yellow"]}
       >
+        {movies.map((movie) => (
+          <Movie key={movie.id} movie={movie} />
+        ))}
+
+        {/* <Movie />
         <Movie />
         <Movie />
         <Movie />
@@ -68,9 +73,7 @@ export const Home = () => {
         <Movie />
         <Movie />
         <Movie />
-        <Movie />
-        <Movie />
-        <Movie />
+        <Movie /> */}
       </Flex>
     </Container>
   );

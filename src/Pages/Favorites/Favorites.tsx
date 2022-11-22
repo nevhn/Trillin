@@ -21,13 +21,13 @@ export const Favorites = () => {
         // flexDir='row'
         // maxW="100%"
       >
-        <Box transform={"auto"} _hover={{ transform: "scale(1)" }}>
+        {/* <Box transform={"auto"} _hover={{ transform: "scale(1)" }}>
           <Movie />
         </Box>
         <Movie />
         <Movie />
         <Movie />
-        <Movie />
+        <Movie /> */}
       </Flex>
     </>
   );

@@ -7,7 +7,6 @@ import {
   Center,
   Container,
   Flex,
-  
   Spacer,
   Img,
   Heading,
@@ -18,8 +17,11 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+// import { useState, useEffect } from "react";
+// import axios from "axios";
 
-export const Movie = () => {
+export const Movie = (props: any) => {
+  const movie = props.movie;
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
 
@@ -28,6 +30,7 @@ export const Movie = () => {
 
   return (
     <Box
+      key={movie.id}
       className="movie"
       bg="red"
       overflow={"hidden"}
@@ -37,10 +40,12 @@ export const Movie = () => {
       // mx="0.3rem"
       onMouseEnter={onToggle}
       onMouseLeave={onToggle}
+      onClick={() => console.log(movie.id)}
     >
       <Img
         w={"100%"}
-        src="https://m.media-amazon.com/images/M/MV5BODZkZjUxNmEtMGEyOS00ZDY5LTkxZDMtZTJkZDBiZTkyOWRkXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg"
+        // src="https://m.media-amazon.com/images/M/MV5BODZkZjUxNmEtMGEyOS00ZDY5LTkxZDMtZTJkZDBiZTkyOWRkXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg"
+        src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
       />
       <Flex
         className="move-data"
@@ -50,8 +55,9 @@ export const Movie = () => {
         letterSpacing="0.5px"
         bg={"eee"}
       >
-        <Heading as="h3" m="0" size="lg" fontWeight='bold'>
-          Neon Genesis Evangelion
+        <Heading as="h3" m="0" size="lg" fontWeight="bold">
+          {/* Neon Genesis Evangelion */}
+          {movie.original_title}
         </Heading>
         <Text
           as="span"
@@ -59,7 +65,8 @@ export const Movie = () => {
           fontWeight="bold"
           padding="0.25rem 0.5rem"
         >
-          8.5
+          {/* 8.5 */}
+          {movie.vote_average}
         </Text>
         <Fade in={isOpen}>
           <Box
@@ -74,18 +81,24 @@ export const Movie = () => {
             right="0"
           >
             <Heading as="h3" mt="0" size="md" color={textOverview}>
-              October 4, 1995
+              {/* October 4, 1995 */}
+              {movie.release_date}
             </Heading>
             <Heading as="h3" mt="0" size="lg" color={textOverview}>
               Overview
             </Heading>
             <Text color={textOverview}>
-              A teenage boy finds himself recruited as a member of an elite team
-              of pilots by his father.
+              {/* A teenage boy finds himself recruited as a member of an elite
+                  team of pilots by his father. */}
+              {movie.overview}
             </Text>
-            <Text color={textOverview} >
-              <Link color='teal.500' href='/movie-info' isExternal>
-            More info <ExternalLinkIcon mx='2px' />
+            <Text color={textOverview}>
+              <Link
+                color="teal.500"
+                href={`/movie-info/${movie.id}`}
+                isExternal
+              >
+                More info <ExternalLinkIcon mx="2px" />
               </Link>
             </Text>
           </Box>

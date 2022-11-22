@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     errorElement: <RouteError />,
   },
   {
-    path: "movie-info",
+    path: "movie-info/:movieId",
     element: <MovieInfo />,
   },
   {
