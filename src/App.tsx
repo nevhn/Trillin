@@ -2,12 +2,6 @@ import * as React from "react";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   // theme,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
@@ -23,6 +17,7 @@ import { WatchList } from "./Pages/WatchList/WatchList";
 import { CompletedList } from "./Pages/CompletedList/CompletedList";
 import { Logout } from "./Pages/Logout/Logout";
 import { BgCircle } from "./Components/BgCircle/BgCircle";
+import { SearchResults } from "./Pages/SearchResults/SearchResults";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "logout",
     element: <Logout />,
+  },
+  {
+    path: "search/:movieQuery",
+    element: <SearchResults />,
   },
 ]);
 

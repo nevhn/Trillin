@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Container,
-  Box,
-  Img,
-  AspectRatio,
-  Flex,
-  Grid,
-  Text,
-  Heading,
-} from "@chakra-ui/react";
+import { Box, AspectRatio, Flex, Text, Heading } from "@chakra-ui/react";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,8 +15,6 @@ export const MovieInfo = () => {
   /**Get query params : movieID to pass to the api call*/
   let { movieId } = useParams();
 
-  console.log(movieId);
-
   const fetchMovieInfo = async () => {
     /** Fetch details about the movie, official trailer, cast */
     const response = await axios(
@@ -33,11 +22,11 @@ export const MovieInfo = () => {
     );
 
     const movieInfo = response.data;
-    const releaseDates = response.data["release_dates"].results;
-    const credits = response.data["credits"];
+    const listOfReleaseDates = response.data["release_dates"].results;
+    const listOfCredits = response.data["credits"];
 
     /**Find parental rating */
-    const usReleaseDate = releaseDates.find(
+    const usReleaseDate = listOfReleaseDates.find(
       (date: any) => date.iso_3166_1 === "US"
     );
 
@@ -51,8 +40,8 @@ export const MovieInfo = () => {
       listOfGenres.push(obj.name);
     });
 
-    const castArr = credits.cast;
-    const crewArr = credits.crew;
+    const castArr = listOfCredits.cast;
+    const crewArr = listOfCredits.crew;
 
     /**Find director and actors */
     const director = crewArr.find((c: any) => c.job === "Director");
@@ -71,8 +60,9 @@ export const MovieInfo = () => {
     setCast(actors);
     setGenre(listOfGenres);
 
-    console.log(response.data);
-    console.log(actors);
+    console.log("movieInfo: ", response.data);
+    console.log("crew: ", actors);
+    console.log("director: ", director);
   };
 
   const fetchMovieTrailer = async () => {
@@ -83,22 +73,21 @@ export const MovieInfo = () => {
     const results = response.data.results;
 
     /**Filter through array of objects where key matches string */
-    const officialTrailerObj = results.find(
-      (obj: any) => obj.name === "Official Trailer"
+    const officialTrailerObj = results.find((obj: any) =>
+      obj.name.includes("Official")
     );
     const trailerKey = officialTrailerObj["key"];
-    console.log(trailerKey);
     /**Youtube base url */
     const url = `https://www.youtube.com/embed/${trailerKey}`;
 
     setTrailerUrl(url);
+    console.log("trailer: ", officialTrailerObj);
   };
 
   useEffect(() => {
     fetchMovieInfo();
     fetchMovieTrailer();
   }, []);
-
   return (
     <Box m="1rem">
       <AspectRatio
