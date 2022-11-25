@@ -1,3 +1,5 @@
+import { useState, useContext } from "react";
+import axios from "axios";
 import {
   Box,
   Flex,
@@ -16,11 +18,14 @@ import {
   Center,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Select,
   Heading,
   Text,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
+import MovieContext from "../../MovieContext/MovieContext";
 
 // export const NavLink = ({ children }: { children: ReactNode }) => (
 //   <Link
@@ -41,8 +46,36 @@ export const NavBar = () => {
   /**
    * Add divider between theme button
    */
+  const movieContext = useContext(MovieContext);
+  const movies = movieContext?.movies as any[];
+
+  const [query, setQuery] = useState(undefined);
+
   const { colorMode, toggleColorMode } = useColorMode();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const searchQuery = async (query: string) => {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1&query=${query}&include_adult=false&region=US`
+    );
+    const movies = response.data.results;
+    movieContext?.setMovies(movies);
+  };
+
+  const handleInputChange = (e: any) => {
+    /**TODO: Figure out how to reset homepage when search query is clear. Prehaps using context */
+    setQuery(e.target.value);
+    console.log(e.target.value);
+
+    if (!e.target.value) {
+      console.log(query);
+      movieContext?.setMovies(movies);
+    } else {
+      searchQuery(e.target.value);
+    }
+  };
+
   return (
     <>
       <Box
@@ -56,7 +89,9 @@ export const NavBar = () => {
             color={useColorModeValue("gray.800", "white")}
             fontWeight={"black"}
           >
-            <Link href={"/"}>Trillin</Link>
+            <Link _hover={{ textDecoration: "none" }} href={"/"}>
+              Trillin
+            </Link>
           </Heading>
 
           <Flex alignItems={"center"}>
@@ -69,21 +104,32 @@ export const NavBar = () => {
               </Select>
 
               <Flex className="search" gap={"1"}>
-                <Input
-                  w="sm"
-                  border="none"
-                  whiteSpace={"nowrap"}
-                  bg="gray.200"
-                  _placeholder={{ color: "gray.700" }}
-                  textAlign={"center"}
-                  placeholder="Search movie"
-                />
-                <IconButton
+                <InputGroup>
+                  <InputRightElement
+                    className="InputLeft"
+                    pointerEvents="none"
+                    children={
+                      <SearchIcon className="SearchIcon" color="gray.5ada00" />
+                    }
+                  />
+                  <Input
+                    w="sm"
+                    variant={"outline"}
+                    whiteSpace={"nowrap"}
+                    bg="gray.200"
+                    _placeholder={{ color: "gray.700" }}
+                    textAlign={"center"}
+                    placeholder="Search movie"
+                    onChange={handleInputChange}
+                    value={query}
+                  />
+                </InputGroup>
+                {/* <IconButton
                   m="0"
                   colorScheme="blue"
                   aria-label="Search Movies"
                   icon={<SearchIcon />}
-                />
+                /> */}
               </Flex>
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

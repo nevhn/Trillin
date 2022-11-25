@@ -1,5 +1,11 @@
 import { createContext } from "react";
 
-const NameContext = createContext(null);
+export interface MovieContextInterface {
+  query: string;
+  movies: any[];
+  setMovies: React.Dispatch<React.SetStateAction<any[]>>;
+}
 
-export default NameContext;
+const MovieContext = createContext<MovieContextInterface | null>(null);
+
+export default MovieContext;

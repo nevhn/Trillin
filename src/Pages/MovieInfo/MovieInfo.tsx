@@ -8,9 +8,9 @@ export const MovieInfo = () => {
   const [movie, setMovie] = useState<any>({});
   const [trailerUrl, setTrailerUrl] = useState("");
   const [parentalRating, setParentalRating] = useState("");
-  const [cast, setCast] = useState<string[]>([]);
+  const [cast, setCast] = useState<any[]>([]);
   const [crew, setCrew] = useState("");
-  const [genre, setGenre] = useState<string[]>([]);
+  const [genres, setGenre] = useState<any[]>([]);
 
   /**Get query params : movieID to pass to the api call*/
   let { movieId } = useParams();
@@ -34,7 +34,7 @@ export const MovieInfo = () => {
 
     /**Genre */
 
-    const listOfGenres: string[] = [];
+    const listOfGenres: any[] = [];
 
     movieInfo.genres.find((obj: any) => {
       listOfGenres.push(obj.name);
@@ -46,7 +46,7 @@ export const MovieInfo = () => {
     /**Find director and actors */
     const director = crewArr.find((c: any) => c.job === "Director");
 
-    const actors: string[] = [];
+    const actors: any[] = [];
 
     castArr.forEach((obj: any) => {
       actors.push(obj.name);
@@ -140,8 +140,10 @@ export const MovieInfo = () => {
           <Text fontWeight={"bold"} as="span">
             Cast{" "}
           </Text>
-          <Text overflowWrap={"anywhere"} as="span">
-            {cast}
+          <Text as="span">
+            {cast.map((actor) => (
+              <Text as="p"> {actor} </Text>
+            ))}
           </Text>
           <br />
           {/* Genre*/}
@@ -149,7 +151,11 @@ export const MovieInfo = () => {
           <Text fontWeight={"bold"} as="span">
             Genre{" "}
           </Text>
-          <Text as="span">{genre}</Text>
+          <Text as="span">
+            {genres.map((genre) => (
+              <Text as="p"> {genre}</Text>
+            ))}
+          </Text>
           <br />
           {/* Run Time*/}
           <Text fontWeight={"bold"} as="span">

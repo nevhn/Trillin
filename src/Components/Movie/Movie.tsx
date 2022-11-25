@@ -19,8 +19,12 @@ import {
 } from "@chakra-ui/react";
 // import { useState, useEffect } from "react";
 // import axios from "axios";
+import { useContext } from "react";
+import MovieContext from "../../MovieContext/MovieContext";
 
 export const Movie = (props: any) => {
+  const movieContext = useContext(MovieContext);
+
   const movie = props.movie;
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
