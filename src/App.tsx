@@ -57,23 +57,39 @@ export const App = () => {
     // },
   ]);
   const [movies, setMovies] = useState<any[]>([]);
+  const [emptyInput, setEmptyInput] = useState(false);
+  const [page, setPage] = useState(1);
+  // const [cachedMovies, setCachedMovies] = useState<any[]>([]);
+  // let cachedResponse: any = [];
 
   const fetchMovies = async () => {
     const response = await axios.get(
-      "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1"
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${page}`
     );
 
-    setMovies(response.data.results);
+    const listOfMovies = response.data.results;
+    setMovies(listOfMovies);
+    // setCachedMovies(listOfMovies);
+    // cachedResponse = listOfMovies;
     console.log(response.data.results);
   };
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+    console.log("refreshed");
+  }, [emptyInput, page]);
 
   return (
     <MovieContext.Provider
-      value={{ query: "hello", movies: movies, setMovies: setMovies }}
+      value={{
+        page: page,
+        setPage: setPage,
+        movies: movies,
+        setMovies: setMovies,
+        emptyInput: emptyInput,
+        setEmptyInput: setEmptyInput,
+        // cachedMovies: cachedMovies,
+      }}
     >
       <ChakraProvider theme={theme}>
         {/* <BgCircle /> */}

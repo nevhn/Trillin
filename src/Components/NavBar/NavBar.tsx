@@ -22,7 +22,6 @@ import {
   InputRightElement,
   Select,
   Heading,
-  Text,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 import MovieContext from "../../MovieContext/MovieContext";
@@ -47,9 +46,8 @@ export const NavBar = () => {
    * Add divider between theme button
    */
   const movieContext = useContext(MovieContext);
-  const movies = movieContext?.movies as any[];
 
-  const [query, setQuery] = useState(undefined);
+  const [query, setQuery] = useState("");
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -59,21 +57,22 @@ export const NavBar = () => {
     const response = await axios.get(
       `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1&query=${query}&include_adult=false&region=US`
     );
-    const movies = response.data.results;
-    movieContext?.setMovies(movies);
+    const listOfMovies = response.data.results;
+    movieContext?.setMovies(listOfMovies);
+    movieContext?.setEmptyInput(false);
   };
 
-  const handleInputChange = (e: any) => {
-    /**TODO: Figure out how to reset homepage when search query is clear. Prehaps using context */
-    setQuery(e.target.value);
-    console.log(e.target.value);
+  const handleInputChange = (value: any) => {
+    console.log(value.trim().length);
+    setQuery(value);
 
-    if (!e.target.value) {
-      console.log(query);
-      movieContext?.setMovies(movies);
-    } else {
-      searchQuery(e.target.value);
+    if (value.trim().length === 0) {
+      movieContext?.setEmptyInput(true);
+      return;
+      // movieContext?.setMovies(movieContext.cachedMovies);
     }
+    searchQuery(value);
+    console.log("!");
   };
 
   return (
@@ -120,7 +119,7 @@ export const NavBar = () => {
                     _placeholder={{ color: "gray.700" }}
                     textAlign={"center"}
                     placeholder="Search movie"
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e.target.value)}
                     value={query}
                   />
                 </InputGroup>

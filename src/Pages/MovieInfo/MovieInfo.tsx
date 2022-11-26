@@ -4,6 +4,8 @@ import { Box, AspectRatio, Flex, Text, Heading } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+/**CLEAN THIS UP */
+
 export const MovieInfo = () => {
   const [movie, setMovie] = useState<any>({});
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -11,6 +13,7 @@ export const MovieInfo = () => {
   const [cast, setCast] = useState<any[]>([]);
   const [crew, setCrew] = useState("");
   const [genres, setGenre] = useState<any[]>([]);
+  const [runtime, setRuntime] = useState("");
 
   /**Get query params : movieID to pass to the api call*/
   let { movieId } = useParams();
@@ -52,7 +55,17 @@ export const MovieInfo = () => {
       actors.push(obj.name);
     });
 
-    // console.log("filtered:", director);
+    /**Parse runtime */
+    /**do checks if 0 mins then dont show it or also minute if its 1 */
+    const rawRuntime = movieInfo.runtime.toString();
+    const hour = rawRuntime[0];
+    const minutes = rawRuntime.slice(1);
+    const parsedRuntime = `${hour} hours ${minutes} minutes`;
+    console.log(parsedRuntime);
+
+    setRuntime(parsedRuntime);
+    console.log("hour: ", hour);
+    console.log("min: ", minutes);
 
     setMovie(movieInfo);
     setParentalRating(certification);
@@ -63,6 +76,7 @@ export const MovieInfo = () => {
     console.log("movieInfo: ", response.data);
     console.log("crew: ", actors);
     console.log("director: ", director);
+    console.log("runtime:", runtime);
   };
 
   const fetchMovieTrailer = async () => {
@@ -81,6 +95,7 @@ export const MovieInfo = () => {
     const url = `https://www.youtube.com/embed/${trailerKey}`;
 
     setTrailerUrl(url);
+
     console.log("trailer: ", officialTrailerObj);
   };
 
@@ -127,7 +142,10 @@ export const MovieInfo = () => {
 
         <Box>
           {/* Rating */}
-          <Heading>{`Rating : ${parentalRating}`}</Heading>
+          {/* TODO: Fix rating not showing up on some movies */}
+          <Heading>{`Rating ${
+            parentalRating ? parentalRating : "Pending"
+          }`}</Heading>
 
           {/* Directors & Writers */}
           <Text fontWeight={"bold"} as="span">
@@ -161,8 +179,7 @@ export const MovieInfo = () => {
           <Text fontWeight={"bold"} as="span">
             Run Time{" "}
           </Text>
-          <Text as="span">{movie.runtime}</Text>
-          {"\n"}
+          <Text as="span">{runtime}</Text>
         </Box>
       </Flex>
     </Box>

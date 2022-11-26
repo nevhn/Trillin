@@ -1,4 +1,4 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Container, Flex, Button, Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useContext } from "react";
@@ -8,6 +8,15 @@ import { Movie } from "../../Components/Movie/Movie";
 export const Movies = () => {
   // const movieContext = useContext(MovieContext)
   const movieContext = useContext(MovieContext);
+  console.log("page: ", movieContext?.page);
+
+  const handlePrevPage = () => {
+    movieContext?.setPage(movieContext.page - 1);
+  };
+
+  const handleNextPage = () => {
+    movieContext?.setPage(movieContext.page + 1);
+  };
   // const [movies, setMovie] = useState<any[]>([]);
 
   // const fetchMovie = async () => {
@@ -45,6 +54,14 @@ export const Movies = () => {
         {movieContext?.movies.map((movie) => (
           <Movie key={movie.id} movie={movie} />
         ))}
+      </Flex>
+      <Flex justifyContent={"space-between"} px="1rem">
+        {movieContext?.page === 1 ? (
+          <Box />
+        ) : (
+          <Button onClick={handlePrevPage}>Prev</Button>
+        )}
+        <Button onClick={handleNextPage}>Next</Button>
       </Flex>
     </Container>
   );

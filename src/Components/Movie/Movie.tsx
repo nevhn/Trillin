@@ -1,4 +1,10 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import {
+  ExternalLinkIcon,
+  StarIcon,
+  CheckIcon,
+  AddIcon,
+  PlusSquareIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
   Grid,
@@ -31,6 +37,16 @@ export const Movie = (props: any) => {
 
   const bgOverview = useColorModeValue("#201C1C", "black");
   const textOverview = useColorModeValue("white", "white");
+
+  const addToFavorites = () => {
+    console.log("fav");
+  };
+  const addToCompleted = () => {
+    console.log("completed");
+  };
+  const addToWatchLater = () => {
+    console.log("watch later");
+  };
 
   return (
     <Box
@@ -97,13 +113,21 @@ export const Movie = (props: any) => {
               {movie.overview}
             </Text>
             <Text color={textOverview}>
-              <Link
-                color="teal.500"
-                href={`/movie-info/${movie.id}`}
-                isExternal
-              >
-                More info <ExternalLinkIcon mx="2px" />
-              </Link>
+              <Box>
+                <Link
+                  color="teal.500"
+                  href={`/movie-info/${movie.id}`}
+                  isExternal
+                >
+                  More info <ExternalLinkIcon mx="2px" />
+                </Link>
+              </Box>
+              <Flex justifyContent={"space-between"} mt="2rem">
+                {/* Add tool lips */}
+                <CheckIcon onClick={addToCompleted} />
+                <StarIcon onClick={addToFavorites} />
+                <PlusSquareIcon onClick={addToWatchLater} />
+              </Flex>
             </Text>
           </Box>
         </Fade>
