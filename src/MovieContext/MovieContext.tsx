@@ -7,7 +7,12 @@ export interface MovieContextInterface {
   setMovies: React.Dispatch<React.SetStateAction<any[]>>;
   emptyInput: boolean;
   setEmptyInput: React.Dispatch<React.SetStateAction<boolean>>;
-  // cachedMovies: any;
+  favorites: any[];
+  setFavorites: React.Dispatch<React.SetStateAction<any[]>>;
+  completed: any[];
+  setCompleted: React.Dispatch<React.SetStateAction<any[]>>;
+  watchLater: any[];
+  setWatchLater: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const MovieContext = createContext<MovieContextInterface | null>(null);

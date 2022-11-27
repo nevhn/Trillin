@@ -60,6 +60,8 @@ export const NavBar = () => {
     const listOfMovies = response.data.results;
     movieContext?.setMovies(listOfMovies);
     movieContext?.setEmptyInput(false);
+    /**TODO: reset page to 1 when searching for a movie */
+    // movieContext?.setPage(1);
   };
 
   const handleInputChange = (value: any) => {

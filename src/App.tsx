@@ -59,6 +59,11 @@ export const App = () => {
   const [movies, setMovies] = useState<any[]>([]);
   const [emptyInput, setEmptyInput] = useState(false);
   const [page, setPage] = useState(1);
+
+  const [favorites, setFavorites] = useState<any[]>([]);
+  const [completed, setCompleted] = useState<any[]>([]);
+  const [watchLater, setWatchLater] = useState<any[]>([]);
+
   // const [cachedMovies, setCachedMovies] = useState<any[]>([]);
   // let cachedResponse: any = [];
 
@@ -82,12 +87,18 @@ export const App = () => {
   return (
     <MovieContext.Provider
       value={{
-        page: page,
-        setPage: setPage,
-        movies: movies,
-        setMovies: setMovies,
-        emptyInput: emptyInput,
-        setEmptyInput: setEmptyInput,
+        page,
+        setPage,
+        movies,
+        setMovies,
+        emptyInput,
+        setEmptyInput,
+        favorites,
+        setFavorites,
+        completed,
+        setCompleted,
+        watchLater,
+        setWatchLater,
         // cachedMovies: cachedMovies,
       }}
     >

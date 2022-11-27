@@ -22,16 +22,19 @@ import {
   useDisclosure,
   useColorMode,
   useColorModeValue,
+  ScaleFade,
 } from "@chakra-ui/react";
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // import axios from "axios";
 import { useContext } from "react";
 import MovieContext from "../../MovieContext/MovieContext";
 
 export const Movie = (props: any) => {
+  const movie = props.movie;
   const movieContext = useContext(MovieContext);
 
-  const movie = props.movie;
+  const [isFavorite, setIsFavorite] = useState<boolean>();
+
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
 
@@ -39,7 +42,24 @@ export const Movie = (props: any) => {
   const textOverview = useColorModeValue("white", "white");
 
   const addToFavorites = () => {
-    console.log("fav");
+
+    if (isFavorite){
+      setIsFavorite(false)
+/**TODO figure out how to remove item from array if id matches the passed id */
+      const index = movieContext?.favorites.map((obj, i) => )
+      movieContext?.favorites.splice(1, 1)
+
+    }
+    console.log(`added ${movie.id} to favorites`);
+
+    console.log(movie);
+    // movieContext?.setFavorites()
+    movieContext?.setFavorites([...movieContext?.favorites, movie]);
+
+    setIsFavorite(true);
+    console.log(movieContext?.favorites);
+
+    // call setFav()
   };
   const addToCompleted = () => {
     console.log("completed");
@@ -124,9 +144,52 @@ export const Movie = (props: any) => {
               </Box>
               <Flex justifyContent={"space-between"} mt="2rem">
                 {/* Add tool lips */}
-                <CheckIcon onClick={addToCompleted} />
-                <StarIcon onClick={addToFavorites} />
-                <PlusSquareIcon onClick={addToWatchLater} />
+                <Box
+                  className="CompletedBox"
+                  __css={{
+                    transform: "perspective(1px) translateZ(0)",
+                    transitionDuration: "0.3s",
+                    transitionProperty: "transform",
+                    transitionTimingFunction: "ease-out",
+                    _hover: { transform: "translateY(-8px)" },
+                  }}
+                >
+                  <CheckIcon w={6} h={6} onClick={addToCompleted} />
+                </Box>
+                <Box
+                  className="favoritesBox"
+                  __css={{
+                    transform: "perspective(1px) translateZ(0)",
+                    transitionDuration: "0.3s",
+                    transitionProperty: "transform",
+                    transitionTimingFunction: "ease-out",
+                    _hover: { transform: "translateY(-8px)" },
+                  }}
+                  // _hover={{
+                  //   WebkitTransform: "translateY(-8px)",
+                  //   transform: "translateY(-8px)",
+                  // }}
+                >
+                  <StarIcon
+                    w={6}
+                    h={6}
+                    onClick={addToFavorites}
+                    color={isFavorite ? "red" : "blue"}
+                  />
+                </Box>
+
+                <Box
+                  className="watchLaterBox"
+                  __css={{
+                    transform: "perspective(1px) translateZ(0)",
+                    transitionDuration: "0.3s",
+                    transitionProperty: "transform",
+                    transitionTimingFunction: "ease-out",
+                    _hover: { transform: "translateY(-8px)" },
+                  }}
+                >
+                  <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
+                </Box>
               </Flex>
             </Text>
           </Box>
