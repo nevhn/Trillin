@@ -52,7 +52,7 @@ export const Movies = () => {
         // bg={["skyblue", "blue", "yellow"]}
       >
         {movieContext?.movies.map((movie) => (
-          <Movie key={movie.id} movie={movie} />
+          <Movie key={movie.id} movie={movie} isFav={false} />
         ))}
       </Flex>
       <Flex justifyContent={"space-between"} px="1rem">

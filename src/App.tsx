@@ -21,9 +21,6 @@ import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
 
-// const infoMovieContext: Movue = {
-// }
-
 export const App = () => {
   const router = createBrowserRouter([
     {
@@ -74,15 +71,22 @@ export const App = () => {
 
     const listOfMovies = response.data.results;
     setMovies(listOfMovies);
-    // setCachedMovies(listOfMovies);
-    // cachedResponse = listOfMovies;
     console.log(response.data.results);
   };
+
+  // const addFavToLocalStorage = () => {
+  //   localStorage.setItem("favorites", JSON.stringify(favorites));
+  //   console.log("added favorites to localStorage");
+  // };
 
   useEffect(() => {
     fetchMovies();
     console.log("refreshed");
   }, [emptyInput, page]);
+
+  // useEffect(() => {
+  //   addFavToLocalStorage();
+  // }, [favorites]);
 
   return (
     <MovieContext.Provider

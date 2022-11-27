@@ -1,7 +1,13 @@
-import { Movie } from "../../Components/Movie/Movie";
 import { Flex, Heading, Center, Box, BoxProps } from "@chakra-ui/react";
+import { useContext } from "react";
+import { Movie } from "../../Components/Movie/Movie";
+import MovieContext from "../../MovieContext/MovieContext";
 
 export const Favorites = () => {
+  // const movieContext = useContext(MovieContext);
+  const favorites = JSON.parse(localStorage.getItem("favorites")!);
+  console.log("fav", favorites);
+
   return (
     <>
       <Center mt="1rem">
@@ -21,6 +27,9 @@ export const Favorites = () => {
         // flexDir='row'
         // maxW="100%"
       >
+        {favorites?.map((movie: any) => (
+          <Movie movie={movie} isFav={true} />
+        ))}
         {/* <Box transform={"auto"} _hover={{ transform: "scale(1)" }}>
           <Movie />
         </Box>
