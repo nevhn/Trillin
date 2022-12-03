@@ -38,7 +38,7 @@ export const Movie = (props: any) => {
 
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
-  const [isWatched, setIsWatched] = useState<boolean>(false);
+  const [watchLater, setWatchLater] = useState<boolean>(false);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -49,31 +49,22 @@ export const Movie = (props: any) => {
   const textOverview = useColorModeValue("white", "white");
 
   const addToFavorites = () => {
-    /**TODO REFACTOR THIS*/
     setIsFavorite(!isFavorite);
-
-    const localFavoritesLength = localStorage.length;
-    let localStorageValues: any[] = [];
-
-    if (localFavoritesLength > 1) {
-      localStorageValues = Object.values(
-        JSON.parse(localStorage.getItem("favorites")!)
-      );
-    }
-
-    if (isFavorite && localFavoritesLength > 1) {
-      const newArr = localStorageValues?.filter((obj) => obj.id != movie.id);
-      // movieContext?.setCompleted(newCompleted!);
+    const localFavorites = Object.values(
+      JSON.parse(localStorage.getItem("favorites")!)
+    );
+    if (isFavorite) {
+      /**Understand this logic more */
+      console.log("hey");
+      const newArr = localFavorites?.filter((obj: any) => obj.id != movie.id);
       localStorage.setItem("favorites", JSON.stringify(newArr));
       return;
     }
-    const arr = [...localStorageValues, movie];
+    const arr = [...localFavorites, movie];
     localStorage.setItem("favorites", JSON.stringify(arr));
-    // localStorage.setItem("favorites", JSON.stringify([movie]));
-    console.log(localStorageValues);
   };
 
-  /**TODO Completed the rest of this */
+  /**TODO Completed the rest of this follow add to favor code */
   const addToCompleted = () => {
     setIsCompleted(!isCompleted);
     if (isCompleted && movieContext!.completed.length > 0) {
@@ -87,18 +78,57 @@ export const Movie = (props: any) => {
     console.log(`added ${movie.id} to completed`);
   };
 
-  const addToWatchLater = () => {
-    setIsWatched(!isWatched);
-    if (isWatched && movieContext!.watchLater.length > 0) {
-      const newWatched = movieContext?.watchLater.filter(
-        (obj) => obj.id != movie.id
-      );
-      movieContext?.setWatchLater(newWatched!);
+  // const addToWatchLater = () => {
+  //   setWatchLater(!isWatched);
+  //   if (isWatched && movieContext!.watchLater.length > 0) {
+  //     const newWatched = movieContext?.watchLater.filter(
+  //       (obj) => obj.id != movie.id
+  //     );
+  //     movieContext?.setWatchLater(newWatched!);
+  //     return;
+  //   }
+  //   movieContext?.setWatchLater([...movieContext?.watchLater, movie]);
+  //   console.log(`added ${movie.id} to watch later`);
+  // };
+
+  const initializeLocalFavorites = () => {
+    const localFavorites = JSON.parse(localStorage.getItem("favorites")!);
+    if (!localFavorites) {
+      localStorage.setItem("favorites", "[]");
       return;
     }
-    movieContext?.setWatchLater([...movieContext?.watchLater, movie]);
-    console.log(`added ${movie.id} to watch later`);
+    const matchId = localFavorites.find((obj: any) => obj.id === movie.id);
+    if (matchId) setIsFavorite(true);
   };
+
+  const initializeLocalCompleted = () => {
+    const localCompleted = JSON.parse(localStorage.getItem("completed")!);
+    if (!localCompleted) {
+      localStorage.setItem("completed", "[]");
+      return;
+    }
+    const matchId = localCompleted.find((obj: any) => obj.id === movie.id);
+    if (matchId) setIsCompleted(true);
+  };
+  const initializeLocalWatchLater = () => {
+    const localWatchLater = JSON.parse(localStorage.getItem("completed")!);
+    if (!localWatchLater) {
+      localStorage.setItem("watch later", "[]");
+      return;
+    }
+    const matchId = localWatchLater.find((obj: any) => obj.id === movie.id);
+    if (matchId) setWatchLater(true);
+  };
+
+  useEffect(() => {
+    /**todo: FIND movies in the favorites localstorage. (might have to use usetstates) */
+    initializeLocalFavorites();
+    initializeLocalCompleted();
+    initializeLocalWatchLater();
+
+    /**Check if favorites in local storage is empty. If empty create the key and values | match the movie id with the fav movie id and isFav to true*/
+    const localWatchLater = JSON.parse(localStorage.getItem("watch-later")!);
+  }, []);
 
   return (
     <Box
