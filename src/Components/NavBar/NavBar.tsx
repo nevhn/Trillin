@@ -22,9 +22,11 @@ import {
   InputRightElement,
   Select,
   Heading,
+  FormControl,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 import MovieContext from "../../MovieContext/MovieContext";
+import { useNavigate } from "react-router-dom";
 
 // export const NavLink = ({ children }: { children: ReactNode }) => (
 //   <Link
@@ -46,6 +48,7 @@ export const NavBar = () => {
    * Add divider between theme button
    */
   const movieContext = useContext(MovieContext);
+  const navigate = useNavigate();
 
   const [query, setQuery] = useState("");
 
@@ -77,6 +80,17 @@ export const NavBar = () => {
     console.log("!");
   };
 
+  const handleSearchSubmission = (e: any) => {
+    e.preventDefault();
+    console.log(query);
+
+    if (!query.length) {
+      return;
+    }
+
+    navigate("/sessoion");
+  };
+
   return (
     <>
       <Box
@@ -105,26 +119,24 @@ export const NavBar = () => {
               </Select>
 
               <Flex className="search" gap={"1"}>
-                <InputGroup>
-                  <InputRightElement
-                    className="InputLeft"
-                    pointerEvents="none"
-                    children={
+                <form onSubmit={(e) => handleSearchSubmission(e)}>
+                  <FormControl>
+                    <Input
+                      w="sm"
+                      variant={"outline"}
+                      whiteSpace={"nowrap"}
+                      bg="gray.200"
+                      _placeholder={{ color: "gray.700" }}
+                      textAlign={"center"}
+                      placeholder="Search movie"
+                      onChange={(e) => handleInputChange(e.target.value)}
+                      value={query}
+                    />
+                    <Button type="submit">
                       <SearchIcon className="SearchIcon" color="gray.5ada00" />
-                    }
-                  />
-                  <Input
-                    w="sm"
-                    variant={"outline"}
-                    whiteSpace={"nowrap"}
-                    bg="gray.200"
-                    _placeholder={{ color: "gray.700" }}
-                    textAlign={"center"}
-                    placeholder="Search movie"
-                    onChange={(e) => handleInputChange(e.target.value)}
-                    value={query}
-                  />
-                </InputGroup>
+                    </Button>
+                  </FormControl>
+                </form>
                 {/* <IconButton
                   m="0"
                   colorScheme="blue"

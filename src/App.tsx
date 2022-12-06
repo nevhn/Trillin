@@ -48,10 +48,10 @@ export const App = () => {
       path: "logout",
       element: <Logout />,
     },
-    // {
-    //   path: "search/:movieQuery",
-    //   element: <SearchResults />,
-    // },
+    {
+      path: "search/:movieQuery",
+      element: <SearchResults />,
+    },
   ]);
   const [movies, setMovies] = useState<any[]>([]);
   const [emptyInput, setEmptyInput] = useState(false);

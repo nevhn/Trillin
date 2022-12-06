@@ -25,12 +25,16 @@ import {
   ScaleFade,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import MovieContext from "../../MovieContext/MovieContext";
 
 export const Movie = (props: any) => {
-  const movie = props.movie;
-  const isFav = props.isFav;
+  // const movie = props.movie;
+  // const isFav = props.isFav;
+  const { movie } = props;
+
+  const currentPath = useLocation().pathname;
 
   const movieContext = useContext(MovieContext);
 
@@ -55,41 +59,46 @@ export const Movie = (props: any) => {
     );
     if (isFavorite) {
       /**Understand this logic more */
-      console.log("hey");
+      console.log("current state: ", isFavorite);
       const newArr = localFavorites?.filter((obj: any) => obj.id != movie.id);
       localStorage.setItem("favorites", JSON.stringify(newArr));
       return;
     }
     const arr = [...localFavorites, movie];
     localStorage.setItem("favorites", JSON.stringify(arr));
+    console.log(`added ${movie.id} to the completed list`);
   };
 
   /**TODO Completed the rest of this follow add to favor code */
   const addToCompleted = () => {
     setIsCompleted(!isCompleted);
-    if (isCompleted && movieContext!.completed.length > 0) {
-      const newCompleted = movieContext?.completed.filter(
-        (obj) => obj.id != movie.id
-      );
-      movieContext?.setCompleted(newCompleted!);
+    const localCompleted = Object.values(
+      JSON.parse(localStorage.getItem("completed")!)
+    );
+    if (isCompleted) {
+      const newArr = localCompleted?.filter((obj: any) => obj.id != movie.id);
+      localStorage.setItem("completed", JSON.stringify(newArr));
       return;
     }
-    movieContext?.setCompleted([...movieContext?.completed, movie]);
-    console.log(`added ${movie.id} to completed`);
+    const arr = [...localCompleted, movie];
+    localStorage.setItem("completed", JSON.stringify(arr));
+    console.log(`added ${movie.id} to the completed list`);
   };
 
-  // const addToWatchLater = () => {
-  //   setWatchLater(!isWatched);
-  //   if (isWatched && movieContext!.watchLater.length > 0) {
-  //     const newWatched = movieContext?.watchLater.filter(
-  //       (obj) => obj.id != movie.id
-  //     );
-  //     movieContext?.setWatchLater(newWatched!);
-  //     return;
-  //   }
-  //   movieContext?.setWatchLater([...movieContext?.watchLater, movie]);
-  //   console.log(`added ${movie.id} to watch later`);
-  // };
+  const addToWatchLater = () => {
+    setWatchLater(!watchLater);
+    const localWatchLater = Object.values(
+      JSON.parse(localStorage.getItem("watch-later")!)
+    );
+    if (watchLater) {
+      const newArr = localWatchLater?.filter((obj: any) => obj.id != movie.id);
+      localStorage.setItem("watch-later", JSON.stringify(newArr));
+      return;
+    }
+    const arr = [...localWatchLater, movie];
+    localStorage.setItem("watch-later", JSON.stringify(arr));
+    console.log(`added ${movie.id} to watch later`);
+  };
 
   const initializeLocalFavorites = () => {
     const localFavorites = JSON.parse(localStorage.getItem("favorites")!);
@@ -111,9 +120,9 @@ export const Movie = (props: any) => {
     if (matchId) setIsCompleted(true);
   };
   const initializeLocalWatchLater = () => {
-    const localWatchLater = JSON.parse(localStorage.getItem("completed")!);
+    const localWatchLater = JSON.parse(localStorage.getItem("watch-later")!);
     if (!localWatchLater) {
-      localStorage.setItem("watch later", "[]");
+      localStorage.setItem("watch-later", "[]");
       return;
     }
     const matchId = localWatchLater.find((obj: any) => obj.id === movie.id);
@@ -121,13 +130,11 @@ export const Movie = (props: any) => {
   };
 
   useEffect(() => {
-    /**todo: FIND movies in the favorites localstorage. (might have to use usetstates) */
     initializeLocalFavorites();
     initializeLocalCompleted();
     initializeLocalWatchLater();
 
     /**Check if favorites in local storage is empty. If empty create the key and values | match the movie id with the fav movie id and isFav to true*/
-    const localWatchLater = JSON.parse(localStorage.getItem("watch-later")!);
   }, []);
 
   return (
@@ -204,7 +211,7 @@ export const Movie = (props: any) => {
               </Box>
               <Flex justifyContent={"space-between"} mt="2rem">
                 {/* Add tool lips */}
-                {!isFav ? (
+                {currentPath === "/" ? (
                   <>
                     <Box
                       className="CompletedBox"
@@ -215,10 +222,13 @@ export const Movie = (props: any) => {
                         transitionTimingFunction: "ease-out",
                         _hover: { transform: "translateY(-8px)" },
                       }}
-                      color={isCompleted ? "blue" : "white"}
-                      onClick={addToCompleted}
                     >
-                      <CheckIcon w={6} h={6} onClick={addToCompleted} />
+                      <CheckIcon
+                        w={6}
+                        h={6}
+                        onClick={addToCompleted}
+                        color={isCompleted ? "blue" : "white"}
+                      />
                     </Box>
                     <Box
                       className="favoritesBox"
@@ -251,7 +261,7 @@ export const Movie = (props: any) => {
                         transitionTimingFunction: "ease-out",
                         _hover: { transform: "translateY(-8px)" },
                       }}
-                      color={isWatched ? "orange" : "white"}
+                      color={watchLater ? "orange" : "white"}
                     >
                       <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
                     </Box>

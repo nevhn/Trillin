@@ -2,6 +2,9 @@ import { Movie } from "../../Components/Movie/Movie";
 import { Flex, Heading, Center, Box, BoxProps } from "@chakra-ui/react";
 
 export const WatchList = () => {
+  const watchLater = JSON.parse(localStorage.getItem("watch-later")!);
+  console.log(`watch later: ${watchLater}`);
+
   return (
     <>
       <Center mt="1rem">
@@ -14,20 +17,13 @@ export const WatchList = () => {
         flexWrap={"wrap"}
         justifyContent="center"
         align-items="center"
-        // bg= 'blue'
         mt="1rem"
         p="1"
         gap="1rem"
-        // flexDir='row'
-        // maxW="100%"
       >
-        {/* <Box transform={"auto"} _hover={{ transform: "scale(1)" }}> */}
-        {/* <Movie />
-        </Box>
-        <Movie />
-        <Movie />
-        <Movie />
-        <Movie /> */}
+        {watchLater?.map((movie: any) => (
+          <Movie movie={movie} />
+        ))}
       </Flex>
     </>
   );
