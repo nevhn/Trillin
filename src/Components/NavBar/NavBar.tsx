@@ -26,7 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 import MovieContext from "../../MovieContext/MovieContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
 // export const NavLink = ({ children }: { children: ReactNode }) => (
 //   <Link
@@ -47,8 +47,9 @@ export const NavBar = () => {
   /**
    * Add divider between theme button
    */
-  const movieContext = useContext(MovieContext);
   const navigate = useNavigate();
+
+  const movieContext = useContext(MovieContext);
 
   const [query, setQuery] = useState("");
 
@@ -80,15 +81,15 @@ export const NavBar = () => {
     console.log("!");
   };
 
-  const handleSearchSubmission = (e: any) => {
+  const handleSearchSubmission = async (e: any) => {
     e.preventDefault();
     console.log(query);
 
     if (!query.length) {
+      console.log("0");
       return;
     }
-
-    navigate("/sessoion");
+    return navigate(`/search/${query}`);
   };
 
   return (
@@ -193,6 +194,7 @@ export const NavBar = () => {
           </Flex>
         </Flex>
       </Box>
+      <Outlet />
     </>
   );
 };
