@@ -20,45 +20,53 @@ import { BgCircle } from "./Components/BgCircle/BgCircle";
 import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
+import { NavBar2 } from "./Components/NavBar/NavBar2";
+
+const AppLayout = () => (
+  <>
+    <NavBar />
+    <Outlet />
+  </>
+);
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Movies />,
+      },
+      {
+        path: "movie-info/:movieId",
+        element: <MovieInfo />,
+      },
+      {
+        path: "favorites",
+        element: <Favorites />,
+      },
+      {
+        path: "watch-list",
+        element: <WatchList />,
+      },
+      {
+        path: "completed-list",
+        element: <CompletedList />,
+      },
+      {
+        path: "logout",
+        element: <Logout />,
+      },
+      {
+        path: "search/:movieQuery",
+        element: <SearchResults />,
+      },
+    ],
+    errorElement: <RouteError />,
+  },
+]);
 
 export const App = () => {
-  const router = createBrowserRouter([
-    {
-      element: <NavBar />,
-      children: [
-        {
-          path: "/",
-          element: <Movies />,
-        },
-        {
-          path: "movie-info/:movieId",
-          element: <MovieInfo />,
-        },
-        {
-          path: "favorites",
-          element: <Favorites />,
-        },
-        {
-          path: "watch-list",
-          element: <WatchList />,
-        },
-        {
-          path: "completed-list",
-          element: <CompletedList />,
-        },
-        {
-          path: "logout",
-          element: <Logout />,
-        },
-        {
-          path: "search/:movieQuery",
-          element: <SearchResults />,
-        },
-      ],
-      errorElement: <RouteError />,
-    },
-  ]);
-
   const [movies, setMovies] = useState<any[]>([]);
 
   const [emptyInput, setEmptyInput] = useState(false);
