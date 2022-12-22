@@ -1,8 +1,12 @@
-import { createContext } from "react";
+import React, { createContext } from "react";
 
 export interface MovieContextInterface {
+  url: string;
+  setUrl: React.Dispatch<React.SetStateAction<string>>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  searchPageNum: number;
+  setSearchPageNum: React.Dispatch<React.SetStateAction<number>>;
   movies: any[];
   setMovies: React.Dispatch<React.SetStateAction<any[]>>;
   emptyInput: boolean;

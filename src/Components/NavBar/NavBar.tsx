@@ -53,24 +53,29 @@ export const NavBar = () => {
 
   const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  // const [searchPageNum, setPageNum] = useState(1);
+  const [optionPageNum, setOptionPageNum] = useState(1);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const searchQuery = async (query: string) => {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1&query=${query}&include_adult=false&region=US`
+    // const response = await axios.get(
+    //   `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${movieContext?.searchPageNum}&query=${query}&include_adult=false&region=US`
+    // );
+    // const listOfMovies = response.data.results;
+    // movieContext?.setMovies(listOfMovies);
+    movieContext?.setUrl(
+      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${query}&include_adult=false&region=US&page=`
     );
-    const listOfMovies = response.data.results;
-    movieContext?.setMovies(listOfMovies);
+
     movieContext?.setEmptyInput(false);
+    movieContext?.setPage(1);
     /**TODO: reset page to 1 when searching for a movie */
-    // movieContext?.setPage(1);
   };
 
   const handleInputChange = (value: any) => {
-    console.log(value.trim().length);
     setQuery(value);
     if (value.trim().length === 0) {
       movieContext?.setEmptyInput(true);
@@ -78,26 +83,31 @@ export const NavBar = () => {
       // movieContext?.setMovies(movieContext.cachedMovies);
     }
     searchQuery(value);
+    movieContext?.setPage(1);
     console.log("!");
   };
 
   const handleSearchSubmission = async (e: any) => {
     e.preventDefault();
-    console.log(query);
+    // const value = e.target[0].value;
     if (!query.length) {
       console.log("0");
       return;
     }
+    movieContext?.setPage(1);
     return navigate(`/search/${query}`);
   };
 
-  const fetchMovies = async () => {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1`
+  const fetchOption = async () => {
+    // const response = await axios.get(
+    //   `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1`
+    // );
+    // const filteredMovies = response.data.results;
+    // console.log(filteredMovies);
+    // movieContext?.setMovies(filteredMovies);
+    movieContext?.setUrl(
+      `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=`
     );
-    const filteredMovies = response.data.results;
-    console.log(filteredMovies);
-    movieContext?.setMovies(filteredMovies);
   };
 
   const handleSelect = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -106,7 +116,7 @@ export const NavBar = () => {
   };
 
   useEffect(() => {
-    fetchMovies();
+    fetchOption();
   }, [selectedOption]);
 
   return (
@@ -146,23 +156,25 @@ export const NavBar = () => {
               </Select>
             </Stack>
             <Box>
-              <FormControl onSubmit={(e) => handleSearchSubmission(e)}>
-                <Input
-                  w={{ base: "xs" }}
-                  variant={"outline"}
-                  whiteSpace={"nowrap"}
-                  bg="gray.200"
-                  _placeholder={{ color: "gray.700" }}
-                  textAlign={"center"}
-                  placeholder="Search movie"
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  value={query}
-                  mr="1rem"
-                />
+              <FormControl>
+                <form onSubmit={(e) => handleSearchSubmission(e)}>
+                  <Input
+                    w={{ base: "xs" }}
+                    variant={"outline"}
+                    whiteSpace={"nowrap"}
+                    bg="gray.200"
+                    _placeholder={{ color: "gray.700" }}
+                    textAlign={"center"}
+                    placeholder="Search movie"
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    value={query}
+                    mr="1rem"
+                  />
 
-                <IconButton aria-label="submit button" type="submit">
-                  <SearchIcon className="SearchIcon" color="gray.5ada00" />
-                </IconButton>
+                  <IconButton aria-label="submit button" type="submit">
+                    <SearchIcon className="SearchIcon" color="gray.5ada00" />
+                  </IconButton>
+                </form>
               </FormControl>
             </Box>
             {/* <IconButton
@@ -223,7 +235,6 @@ export const NavBar = () => {
           </Flex>
         </Flex>
       </Box>
-      <Outlet />
     </>
   );
 };

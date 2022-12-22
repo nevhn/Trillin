@@ -16,15 +16,15 @@ import { Favorites } from "./Pages/Favorites/Favorites";
 import { WatchList } from "./Pages/WatchList/WatchList";
 import { CompletedList } from "./Pages/CompletedList/CompletedList";
 import { Logout } from "./Pages/Logout/Logout";
-import { BgCircle } from "./Components/BgCircle/BgCircle";
 import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
-import { NavBar2 } from "./Components/NavBar/NavBar2";
+import { BgCircle } from "./Components/BgCircle/BgCircle";
 
 const AppLayout = () => (
   <>
     <NavBar />
+    {/* <BgCircle /> */}
     <Outlet />
   </>
 );
@@ -67,11 +67,17 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
+  const [url, setUrl] = useState(
+    "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page="
+  );
+
   const [movies, setMovies] = useState<any[]>([]);
 
   const [emptyInput, setEmptyInput] = useState(false);
 
-  const [page, setPage] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
+
+  const [searchPageNum, setSearchPageNum] = useState(1);
 
   const [favorites, setFavorites] = useState<any[]>([]);
 
@@ -79,25 +85,42 @@ export const App = () => {
 
   const [watchLater, setWatchLater] = useState<any[]>([]);
 
+  /**
+   * TODO:
+   * Figure out a way to take the current url and append the new number page
+   */
+  // const [url, setUrl] = useState()
+
   const fetchMovies = async () => {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${page}`
-    );
+    console.log("url: ", url);
+    // if (!url) {
+    //   console.log("?");
+    //   setUrl(
+    //     `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=`
+    //   );
+    // }
+    const response = await axios.get(url + pageNum);
     const listOfMovies = response.data.results;
     setMovies(listOfMovies);
+    setPageNum(pageNum);
     console.log(response.data.results);
   };
 
   useEffect(() => {
     fetchMovies();
-    console.log("refreshed");
-  }, [emptyInput, page]);
+    // console.log("movieContext: ", movies);
+  }, [emptyInput, pageNum, url]);
 
   return (
     <MovieContext.Provider
       value={{
-        page,
-        setPage,
+        url,
+        setUrl,
+        // maybe don't add these two page vars
+        page: pageNum,
+        setPage: setPageNum,
+        searchPageNum,
+        setSearchPageNum,
         movies,
         setMovies,
         emptyInput,
