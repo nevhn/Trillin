@@ -1,11 +1,28 @@
 import { Movie } from "../../Components/Movie/Movie";
-import { Flex, Heading, Center, Box, BoxProps } from "@chakra-ui/react";
+import { Flex, Heading, Center, Box, Spinner } from "@chakra-ui/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const WatchList = () => {
   const watchLater = JSON.parse(localStorage.getItem("watch-later")!);
+  const { isLoading, isAuthenticated } = useAuth0();
   console.log(`watch later: ${watchLater}`);
 
-  return (
+  if (isLoading) {
+    return (
+      <Center mt="1rem">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+          textAlign={"center"}
+        />
+      </Center>
+    );
+  }
+
+  return isAuthenticated ? (
     <>
       <Center mt="1rem">
         <Heading as="h1" size="4xl">
@@ -26,5 +43,7 @@ export const WatchList = () => {
         ))}
       </Flex>
     </>
+  ) : (
+    <Box>You need to be logged in</Box>
   );
 };

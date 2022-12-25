@@ -2,7 +2,6 @@ import {
   ExternalLinkIcon,
   StarIcon,
   CheckIcon,
-  AddIcon,
   PlusSquareIcon,
 } from "@chakra-ui/icons";
 import {
@@ -29,10 +28,15 @@ import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import MovieContext from "../../MovieContext/MovieContext";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 export const Movie = (props: any) => {
   // const movie = props.movie;
   // const isFav = props.isFav;
+
   const { movie } = props;
+
+  const { isAuthenticated } = useAuth0();
 
   const currentPath = useLocation().pathname;
 
@@ -209,65 +213,67 @@ export const Movie = (props: any) => {
                   More info <ExternalLinkIcon mx="2px" />
                 </Link>
               </Box>
-              <Flex justifyContent={"space-between"} mt="2rem">
-                {/* Add tool lips */}
-                {currentPath === "/" ? (
-                  <>
-                    <Box
-                      className="CompletedBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                    >
-                      <CheckIcon
-                        w={6}
-                        h={6}
-                        onClick={addToCompleted}
-                        color={isCompleted ? "blue" : "white"}
-                      />
-                    </Box>
-                    <Box
-                      className="favoritesBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                      // _hover={{
-                      //   WebkitTransform: "translateY(-8px)",
-                      //   transform: "translateY(-8px)",
-                      // }}
-                    >
-                      <StarIcon
-                        w={6}
-                        h={6}
-                        onClick={addToFavorites}
-                        color={isFavorite ? "red" : "white"}
-                      />
-                    </Box>
+              {isAuthenticated ? (
+                <Flex justifyContent={"space-between"} mt="2rem">
+                  {/* Add tool lips */}
+                  {currentPath === "/" ? (
+                    <>
+                      <Box
+                        className="CompletedBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                      >
+                        <CheckIcon
+                          w={6}
+                          h={6}
+                          onClick={addToCompleted}
+                          color={isCompleted ? "blue" : "white"}
+                        />
+                      </Box>
+                      <Box
+                        className="favoritesBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                        // _hover={{
+                        //   WebkitTransform: "translateY(-8px)",
+                        //   transform: "translateY(-8px)",
+                        // }}
+                      >
+                        <StarIcon
+                          w={6}
+                          h={6}
+                          onClick={addToFavorites}
+                          color={isFavorite ? "red" : "white"}
+                        />
+                      </Box>
 
-                    <Box
-                      className="watchLaterBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                      color={watchLater ? "orange" : "white"}
-                    >
-                      <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
-                    </Box>
-                  </>
-                ) : null}
-              </Flex>
+                      <Box
+                        className="watchLaterBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                        color={watchLater ? "orange" : "white"}
+                      >
+                        <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
+                      </Box>
+                    </>
+                  ) : null}
+                </Flex>
+              ) : null}
             </Text>
           </Box>
         </Fade>

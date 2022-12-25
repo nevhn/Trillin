@@ -6,7 +6,6 @@ import {
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import theme from "./theme";
-import { Logo } from "./Logo";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Footer } from "./Components/Footer/Footer";
 import { Movies } from "./Pages/Movies/Movies";
@@ -15,11 +14,13 @@ import { RouteError } from "./Pages/Error/RouteError";
 import { Favorites } from "./Pages/Favorites/Favorites";
 import { WatchList } from "./Pages/WatchList/WatchList";
 import { CompletedList } from "./Pages/CompletedList/CompletedList";
-import { Logout } from "./Pages/Logout/Logout";
+// import { Logout } from "./Pages/Logout/Logout";
 import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
 import { BgCircle } from "./Components/BgCircle/BgCircle";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AppLayout = () => (
   <>
@@ -53,10 +54,10 @@ const router = createBrowserRouter([
         path: "completed-list",
         element: <CompletedList />,
       },
-      {
-        path: "logout",
-        element: <Logout />,
-      },
+      // {
+      //   path: "logout",
+      //   element: <Logout />,
+      // },
       {
         path: "search/:movieQuery",
         element: <SearchResults />,
@@ -70,6 +71,8 @@ export const App = () => {
   const [url, setUrl] = useState(
     "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page="
   );
+
+  const { isLoading, isAuthenticated } = useAuth0();
 
   const [movies, setMovies] = useState<any[]>([]);
 

@@ -1,17 +1,44 @@
-import { Flex, Heading, Center, Box, BoxProps } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Center,
+  Box,
+  BoxProps,
+  Spinner,
+  Container,
+} from "@chakra-ui/react";
 import { useContext } from "react";
 import { Movie } from "../../Components/Movie/Movie";
 import MovieContext from "../../MovieContext/MovieContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Favorites = () => {
   const favorites = JSON.parse(localStorage.getItem("favorites")!);
+  const { isAuthenticated, isLoading, user } = useAuth0();
   console.log("fav", favorites);
 
-  return (
+  if (isLoading) {
+    return (
+      <Center mt="1rem">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+          textAlign={"center"}
+        />
+      </Center>
+    );
+  }
+
+  // const username = user.name
+
+  return isAuthenticated ? (
     <>
       <Center mt="1rem">
         <Heading as="h1" size="4xl">
-          {"Username"}'s favorites
+          {user?.nickname}'s favorites
         </Heading>
       </Center>
       <Flex
@@ -28,5 +55,7 @@ export const Favorites = () => {
         ))}
       </Flex>
     </>
+  ) : (
+    <Box>You need to be logged in</Box>
   );
 };

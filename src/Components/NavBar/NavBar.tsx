@@ -1,5 +1,5 @@
 import { useState, useContext, ChangeEvent, FormEvent, useEffect } from "react";
-import axios from "axios";
+
 import {
   Box,
   Flex,
@@ -18,15 +18,17 @@ import {
   Center,
   IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   Select,
   Heading,
   FormControl,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
+
 import MovieContext from "../../MovieContext/MovieContext";
-import { useNavigate, Outlet } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 // export const NavLink = ({ children }: { children: ReactNode }) => (
 //   <Link
@@ -46,7 +48,10 @@ import { useNavigate, Outlet } from "react-router-dom";
 export const NavBar = () => {
   /**
    * Add divider between theme button
+   *
+   *
    */
+
   const navigate = useNavigate();
 
   const movieContext = useContext(MovieContext);
@@ -59,6 +64,22 @@ export const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    loginWithRedirect,
+    user,
+    isAuthenticated,
+    isLoading,
+    logout,
+    getAccessTokenSilently,
+  } = useAuth0();
+
+  // const createToken = async () => {
+  //   if (isAuthenticated) {
+  //     const token = await getAccessTokenSilently();
+  //     localStorage.setItem("access_token", token);
+  //   }
+  // };
 
   const searchQuery = async (query: string) => {
     // const response = await axios.get(
@@ -98,6 +119,14 @@ export const NavBar = () => {
     return navigate(`/search/${query}`);
   };
 
+  const handleLogin = () => {
+    loginWithRedirect();
+  };
+  const handleLogout = () => {
+    localStorage.clear();
+    logout({ returnTo: window.location.origin });
+  };
+
   const fetchOption = async () => {
     // const response = await axios.get(
     //   `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1`
@@ -117,6 +146,7 @@ export const NavBar = () => {
 
   useEffect(() => {
     fetchOption();
+    // createToken();
   }, [selectedOption]);
 
   return (
@@ -183,50 +213,57 @@ export const NavBar = () => {
                   aria-label="Search Movies"
                   icon={<SearchIcon />}
                 /> */}
-
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar
-                  size={"sm"}
-                  src={"https://avatars.dicebear.com/api/male/username.svg"}
-                />
-              </MenuButton>
-              <MenuList alignItems={"center"}>
-                <br />
-                <Center>
+            {isAuthenticated ? (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
                   <Avatar
-                    size={"2xl"}
+                    size={"sm"}
                     src={"https://avatars.dicebear.com/api/male/username.svg"}
                   />
-                </Center>
-                <br />
-                <Center>
-                  <p>Chris</p>
-                </Center>
-                <br />
-                <MenuDivider />
-                <MenuItem>
-                  {" "}
-                  <Link href="/favorites"> Your favorites </Link>{" "}
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/watch-list"> Your watch list </Link>{" "}
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/completed-list"> Your completed list </Link>{" "}
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/logout"> Logout</Link>{" "}
-                </MenuItem>
-              </MenuList>
-            </Menu>
-
+                </MenuButton>
+                <MenuList alignItems={"center"}>
+                  <br />
+                  <Center>
+                    <Avatar
+                      size={"2xl"}
+                      src={"https://avatars.dicebear.com/api/male/username.svg"}
+                    />
+                  </Center>
+                  <br />
+                  <Center>
+                    <p>{user?.nickname?.toUpperCase()}</p>
+                  </Center>
+                  <br />
+                  <MenuDivider />
+                  <MenuItem>
+                    {" "}
+                    <Link href="/favorites"> Your favorites </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href="/watch-list"> Your watch list </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href="/completed-list"> Your completed list </Link>{" "}
+                  </MenuItem>
+                  <MenuItem>
+                    <Link onClick={handleLogout}>Logout</Link>{" "}
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            ) : (
+              <Box>{}</Box>
+            )}
+            {!isAuthenticated && !isLoading ? (
+              <Box ml="-12">
+                <Button onClick={handleLogin}>Login</Button>
+              </Box>
+            ) : null}
             <Box ml="-12">
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
