@@ -1,5 +1,7 @@
 import { useState, useContext, ChangeEvent, FormEvent, useEffect } from "react";
 
+import axios from "axios";
+
 import {
   Box,
   Flex,
@@ -22,6 +24,7 @@ import {
   Heading,
   FormControl,
 } from "@chakra-ui/react";
+
 import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 
 import MovieContext from "../../MovieContext/MovieContext";
@@ -57,9 +60,12 @@ export const NavBar = () => {
   const movieContext = useContext(MovieContext);
 
   const [query, setQuery] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
+
+  const [selectedOption, setSelectedOption] = useState("upcoming");
   // const [searchPageNum, setPageNum] = useState(1);
   const [optionPageNum, setOptionPageNum] = useState(1);
+
+  const [token, setToken] = useState("");
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -74,25 +80,18 @@ export const NavBar = () => {
     getAccessTokenSilently,
   } = useAuth0();
 
-  // const createToken = async () => {
-  //   if (isAuthenticated) {
-  //     const token = await getAccessTokenSilently();
-  //     localStorage.setItem("access_token", token);
-  //   }
-  // };
-
   const searchQuery = async (query: string) => {
     // const response = await axios.get(
-    //   `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${movieContext?.searchPageNum}&query=${query}&include_adult=false&region=US`
+    //   `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${movieContext?.page}&query=${query}&include_adult=false&region=US`
     // );
     // const listOfMovies = response.data.results;
     // movieContext?.setMovies(listOfMovies);
     movieContext?.setUrl(
-      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${query}&include_adult=false&region=US&page=`
+      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${query}&include_adult=false&region=US`
     );
 
     movieContext?.setEmptyInput(false);
-    movieContext?.setPage(1);
+    // movieContext?.setPage(1);
     /**TODO: reset page to 1 when searching for a movie */
   };
 
@@ -121,6 +120,7 @@ export const NavBar = () => {
 
   const handleLogin = () => {
     loginWithRedirect();
+    console.log("helllo");
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -129,13 +129,13 @@ export const NavBar = () => {
 
   const fetchOption = async () => {
     // const response = await axios.get(
-    //   `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=1`
+    //   `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${}`
     // );
     // const filteredMovies = response.data.results;
     // console.log(filteredMovies);
     // movieContext?.setMovies(filteredMovies);
     movieContext?.setUrl(
-      `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=`
+      `https://api.themoviedb.org/3/movie/${selectedOption}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US`
     );
   };
 
@@ -146,7 +146,7 @@ export const NavBar = () => {
 
   useEffect(() => {
     fetchOption();
-    // createToken();
+    movieContext?.setPage(1);
   }, [selectedOption]);
 
   return (

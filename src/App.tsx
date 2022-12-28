@@ -68,19 +68,18 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
-  const [url, setUrl] = useState(
-    "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page="
-  );
-
   const { isLoading, isAuthenticated } = useAuth0();
 
+  const [url, setUrl] = useState(
+    "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US"
+  );
+
+  const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<any[]>([]);
 
   const [emptyInput, setEmptyInput] = useState(false);
 
-  const [pageNum, setPageNum] = useState(1);
-
-  const [searchPageNum, setSearchPageNum] = useState(1);
+  // const [searchPageNum, setSearchPageNum] = useState(1);
 
   const [favorites, setFavorites] = useState<any[]>([]);
 
@@ -95,24 +94,36 @@ export const App = () => {
   // const [url, setUrl] = useState()
 
   const fetchMovies = async () => {
-    console.log("url: ", url);
     // if (!url) {
     //   console.log("?");
     //   setUrl(
     //     `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=`
     //   );
     // }
-    const response = await axios.get(url + pageNum);
+    const response = await axios.get(url);
+    // const response = await axios.get(
+    //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
+    // );
     const listOfMovies = response.data.results;
     setMovies(listOfMovies);
-    setPageNum(pageNum);
     console.log(response.data.results);
   };
 
+  // const restPage = () => {
+  //   setUrl;
+  // };
+
   useEffect(() => {
     fetchMovies();
-    // console.log("movieContext: ", movies);
-  }, [emptyInput, pageNum, url]);
+  }, [emptyInput, url]);
+
+  useEffect(() => {
+    const fetchNextPage = async () => {
+      const response = await axios.get(url + `&page=${page}`);
+      setMovies(response.data.results);
+    };
+    fetchNextPage();
+  }, [page]);
 
   return (
     <MovieContext.Provider
@@ -120,10 +131,10 @@ export const App = () => {
         url,
         setUrl,
         // maybe don't add these two page vars
-        page: pageNum,
-        setPage: setPageNum,
-        searchPageNum,
-        setSearchPageNum,
+        page,
+        setPage,
+        // searchPageNum,
+        // setSearchPageNum,
         movies,
         setMovies,
         emptyInput,

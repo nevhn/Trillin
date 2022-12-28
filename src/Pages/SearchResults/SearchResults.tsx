@@ -14,6 +14,7 @@ export const SearchResults = () => {
   const { movieQuery } = useParams();
   console.log(movieQuery);
 
+  // todo: fix page nav
   const fetchSearchResults = async () => {
     const response = await axios(
       `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${movieQuery}&include_adult=false&region=US&page=` +
