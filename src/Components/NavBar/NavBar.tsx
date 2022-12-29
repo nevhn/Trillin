@@ -29,7 +29,7 @@ import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
 
 import MovieContext from "../../MovieContext/MovieContext";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -70,6 +70,8 @@ export const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const currentPath = useLocation().pathname;
 
   const {
     loginWithRedirect,
@@ -172,19 +174,21 @@ export const NavBar = () => {
           </Box>
 
           <Flex alignItems={"center"} gap={24}>
-            <Stack direction={"row"} spacing={3}>
-              <Select
-                defaultValue={"upcoming"}
-                value={selectedOption}
-                onChange={handleSelect}
-              >
-                {/* TODO: Figure out what url the main page is calling and set as the default value for the selection menu */}
-                <option value="upcoming">Upcoming</option>
-                <option value="popular">Popularity</option>
-                <option value="top_rated">Top Rating </option>
-                <option value="now_playing">Now playing</option>
-              </Select>
-            </Stack>
+            {currentPath == "/" ? (
+              <Stack direction={"row"} spacing={3}>
+                <Select
+                  defaultValue={"upcoming"}
+                  value={selectedOption}
+                  onChange={handleSelect}
+                >
+                  {/* TODO: Figure out what url the main page is calling and set as the default value for the selection menu */}
+                  <option value="upcoming">Upcoming</option>
+                  <option value="popular">Popularity</option>
+                  <option value="top_rated">Top Rating </option>
+                  <option value="now_playing">Now playing</option>
+                </Select>
+              </Stack>
+            ) : null}
             <Box>
               <FormControl>
                 <form onSubmit={(e) => handleSearchSubmission(e)}>

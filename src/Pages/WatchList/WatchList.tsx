@@ -7,20 +7,20 @@ export const WatchList = () => {
   const { isLoading, isAuthenticated } = useAuth0();
   console.log(`watch later: ${watchLater}`);
 
-  if (isLoading) {
-    return (
-      <Center mt="1rem">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-          textAlign={"center"}
-        />
-      </Center>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Center mt="1rem">
+  //       <Spinner
+  //         thickness="4px"
+  //         speed="0.65s"
+  //         emptyColor="gray.200"
+  //         color="blue.500"
+  //         size="xl"
+  //         textAlign={"center"}
+  //       />
+  //     </Center>
+  //   );
+  // }
 
   return isAuthenticated ? (
     <>

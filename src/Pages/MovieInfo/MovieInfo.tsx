@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 /**CLEAN THIS UP */
-
 export const MovieInfo = () => {
   const [movie, setMovie] = useState<any>({});
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -44,6 +43,7 @@ export const MovieInfo = () => {
     });
 
     const castArr = listOfCredits.cast;
+
     const crewArr = listOfCredits.crew;
 
     /**Find director and actors */
@@ -55,17 +55,21 @@ export const MovieInfo = () => {
       actors.push(obj.name);
     });
 
-    /**Parse runtime */
-    /**do checks if 0 mins then dont show it or also minute if its 1 */
+    /**Parse runtime : 135 -> 1 hour $ 35 minutes | 1 hour 1 minute */
     const rawRuntime = movieInfo.runtime.toString();
+
     const hour = rawRuntime[0];
-    const minutes = rawRuntime.slice(1);
-    const parsedRuntime = `${hour} hours ${minutes} minutes`;
-    console.log(parsedRuntime);
+
+    let minutes = rawRuntime.slice(1);
+
+    let parsedHour = hour === "1" ? `${hour} hour` : `${hour} hours`;
+
+    let parsedMinute =
+      minutes === "01" ? `${minutes} Minute` : `${minutes} minutes`;
+
+    let parsedRuntime = `${parsedHour} & ${parsedMinute} `;
 
     setRuntime(parsedRuntime);
-    console.log("hour: ", hour);
-    console.log("min: ", minutes);
 
     setMovie(movieInfo);
     setParentalRating(certification);
@@ -77,13 +81,14 @@ export const MovieInfo = () => {
     console.log("crew: ", actors);
     console.log("director: ", director);
     console.log("runtime:", runtime);
+    console.log("hour: ", hour);
+    console.log("min: ", minutes);
   };
 
   const fetchMovieTrailer = async () => {
     const response = await axios(
       `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=13f9b567969342bbfb2322ca39624376&language=en-US`
     );
-    // console.log(response.data);
     const results = response.data.results;
 
     /**Filter through array of objects where key matches string */
@@ -111,13 +116,7 @@ export const MovieInfo = () => {
         maxW={["25em", "80em"]}
         ratio={16 / 9}
       >
-        <Box
-          as="iframe"
-          title=""
-          // src="https://www.youtube.com/embed/13nSISwxrY4"
-          src={trailerUrl}
-          allowFullScreen
-        />
+        <Box as="iframe" title="" src={trailerUrl} allowFullScreen />
       </AspectRatio>
       <Flex
         className="movie-desc"

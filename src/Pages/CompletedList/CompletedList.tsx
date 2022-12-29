@@ -7,20 +7,20 @@ export const CompletedList = () => {
   const { isAuthenticated, isLoading } = useAuth0();
   console.log(`completed: ${completed}`);
 
-  if (isLoading) {
-    return (
-      <Center mt="1rem">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-          textAlign={"center"}
-        />
-      </Center>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Center mt="1rem">
+  //       <Spinner
+  //         thickness="4px"
+  //         speed="0.65s"
+  //         emptyColor="gray.200"
+  //         color="blue.500"
+  //         size="xl"
+  //         textAlign={"center"}
+  //       />
+  //     </Center>
+  //   );
+  // }
 
   return isAuthenticated ? (
     <>

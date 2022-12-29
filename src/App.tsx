@@ -1,7 +1,9 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
+  Box,
   ChakraProvider,
+  Container,
   // theme,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
@@ -20,6 +22,8 @@ import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
 import { BgCircle } from "./Components/BgCircle/BgCircle";
 
+import { Oval } from "react-loader-spinner";
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 const AppLayout = () => (
@@ -27,6 +31,7 @@ const AppLayout = () => (
     <NavBar />
     {/* <BgCircle /> */}
     <Outlet />
+    {/* <Footer /> */}
   </>
 );
 
@@ -75,11 +80,10 @@ export const App = () => {
   );
 
   const [page, setPage] = useState(1);
+
   const [movies, setMovies] = useState<any[]>([]);
 
   const [emptyInput, setEmptyInput] = useState(false);
-
-  // const [searchPageNum, setSearchPageNum] = useState(1);
 
   const [favorites, setFavorites] = useState<any[]>([]);
 
@@ -87,31 +91,18 @@ export const App = () => {
 
   const [watchLater, setWatchLater] = useState<any[]>([]);
 
-  /**
-   * TODO:
-   * Figure out a way to take the current url and append the new number page
-   */
-  // const [url, setUrl] = useState()
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchMovies = async () => {
-    // if (!url) {
-    //   console.log("?");
-    //   setUrl(
-    //     `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=`
-    //   );
-    // }
-    const response = await axios.get(url);
     // const response = await axios.get(
     //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
     // );
+    const response = await axios.get(url);
     const listOfMovies = response.data.results;
     setMovies(listOfMovies);
     console.log(response.data.results);
+    setLoading(false);
   };
-
-  // const restPage = () => {
-  //   setUrl;
-  // };
 
   useEffect(() => {
     fetchMovies();
@@ -121,9 +112,32 @@ export const App = () => {
     const fetchNextPage = async () => {
       const response = await axios.get(url + `&page=${page}`);
       setMovies(response.data.results);
+      setLoading(false);
     };
     fetchNextPage();
   }, [page]);
+
+  // if (loading) {
+  //   return (
+  //     <Box
+  //       display={"flex"}
+  //       justifyContent="center"
+  //       alignItems={"center"}
+  //       height="100vh"
+
+  //     >
+  //       <Oval
+  //         ariaLabel="loading-indicator"
+  //         height={100}
+  //         width={100}
+  //         strokeWidth={5}
+  //         strokeWidthSecondary={1}
+  //         color="blue"
+  //         secondaryColor="white"
+  //       />
+  //     </Box>
+  //   );
+  // }
 
   return (
     <MovieContext.Provider
@@ -133,8 +147,6 @@ export const App = () => {
         // maybe don't add these two page vars
         page,
         setPage,
-        // searchPageNum,
-        // setSearchPageNum,
         movies,
         setMovies,
         emptyInput,
@@ -148,7 +160,26 @@ export const App = () => {
       }}
     >
       <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
+        {isLoading || loading ? (
+          <Box
+            display={"flex"}
+            justifyContent="center"
+            alignItems={"center"}
+            height="100vh"
+          >
+            <Oval
+              ariaLabel="loading-indicator"
+              height={100}
+              width={100}
+              strokeWidth={5}
+              strokeWidthSecondary={1}
+              color="blue"
+              secondaryColor="white"
+            />
+          </Box>
+        ) : (
+          <RouterProvider router={router} />
+        )}
         <Footer />
       </ChakraProvider>
     </MovieContext.Provider>

@@ -1,11 +1,21 @@
 import { ButtonGroup, Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 // import Logo from "../../Logo.svg";
 
-export const Footer = () => (
-  <>
-    <Box as="footer" role="contentinfo" py={{ base: "12", md: "16" }} m="1rem">
+export const Footer = () => {
+  return (
+    <Box
+      as="footer"
+      role="contentinfo"
+      // py={{ base: "12", md: "16" }}
+      px="6px"
+      w="100%"
+      mt="4rem"
+      pos={window.location.pathname === "/" ? "relative" : "fixed"}
+      bottom="0"
+    >
       <Stack spacing={{ base: "4", md: "5" }}>
         <Stack justify="space-between" direction="row" align="center">
           <Text>Trillin</Text>
@@ -35,11 +45,11 @@ export const Footer = () => (
           reserved.
         </Text>
       </Stack>
+      <Box
+        className="footer-gradient"
+        h="10px"
+        bgGradient={"linear-gradient(to right, red, purple)"}
+      />
     </Box>
-    <Box
-      className="footer-gradient"
-      h="10px"
-      bgGradient={"linear-gradient(to right, red, purple)"}
-    />
-  </>
-);
+  );
+};

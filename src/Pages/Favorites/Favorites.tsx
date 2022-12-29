@@ -17,20 +17,20 @@ export const Favorites = () => {
   const { isAuthenticated, isLoading, user } = useAuth0();
   console.log("fav", favorites);
 
-  if (isLoading) {
-    return (
-      <Center mt="1rem">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-          textAlign={"center"}
-        />
-      </Center>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Center mt="1rem">
+  //       <Spinner
+  //         thickness="4px"
+  //         speed="0.65s"
+  //         emptyColor="gray.200"
+  //         color="blue.500"
+  //         size="xl"
+  //         textAlign={"center"}
+  //       />
+  //     </Center>
+  //   );
+  // }
 
   // const username = user.name
 
