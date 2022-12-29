@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 // import Logo from "../../Logo.svg";
 
 export const Footer = () => {
+  console.log("useLocation", window.location.pathname);
   return (
     <Box
       as="footer"
@@ -13,7 +14,12 @@ export const Footer = () => {
       px="6px"
       w="100%"
       mt="4rem"
-      pos={window.location.pathname === "/" ? "relative" : "fixed"}
+      pos={
+        window.location.pathname === "/" ||
+        window.location.pathname.includes("movie-info")
+          ? "relative"
+          : "fixed"
+      }
       bottom="0"
     >
       <Stack spacing={{ base: "4", md: "5" }}>

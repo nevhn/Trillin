@@ -100,7 +100,7 @@ export const App = () => {
     const response = await axios.get(url);
     const listOfMovies = response.data.results;
     setMovies(listOfMovies);
-    console.log(response.data.results);
+    // console.log(response.data.results);
     setLoading(false);
   };
 

@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
-import { Box, AspectRatio, Flex, Text, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  AspectRatio,
+  Flex,
+  Text,
+  Heading,
+  Img,
+  Link,
+} from "@chakra-ui/react";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 /**CLEAN THIS UP */
 export const MovieInfo = () => {
@@ -13,6 +22,7 @@ export const MovieInfo = () => {
   const [crew, setCrew] = useState("");
   const [genres, setGenre] = useState<any[]>([]);
   const [runtime, setRuntime] = useState("");
+  const [poster, setPoster] = useState("");
 
   /**Get query params : movieID to pass to the api call*/
   let { movieId } = useParams();
@@ -23,16 +33,28 @@ export const MovieInfo = () => {
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&append_to_response=release_dates,credits,videos`
     );
 
+    console.log("response", response.data);
+
     const movieInfo = response.data;
+
+    const posterPath = response.data["poster_path"];
+
     const listOfReleaseDates = response.data["release_dates"].results;
+
     const listOfCredits = response.data["credits"];
 
+    let releaseDate;
     /**Find parental rating */
-    const usReleaseDate = listOfReleaseDates.find(
-      (date: any) => date.iso_3166_1 === "US"
-    );
 
-    const certification = usReleaseDate.release_dates[0].certification;
+    if (listOfReleaseDates.length === 1) {
+      releaseDate = listOfReleaseDates.find((date: any) => date.iso_3166_1);
+    } else {
+      releaseDate = listOfReleaseDates.find(
+        (date: any) => date.iso_3166_1 === "US"
+      );
+    }
+
+    const certification = releaseDate.release_dates[0].certification;
 
     /**Genre */
 
@@ -76,13 +98,15 @@ export const MovieInfo = () => {
     setCrew(director["name"]);
     setCast(actors);
     setGenre(listOfGenres);
+    setPoster(`https://image.tmdb.org/t/p/original${posterPath}`);
 
-    console.log("movieInfo: ", response.data);
+    console.log("movieInfo: ", movieInfo);
     console.log("crew: ", actors);
     console.log("director: ", director);
     console.log("runtime:", runtime);
     console.log("hour: ", hour);
     console.log("min: ", minutes);
+    console.log(poster);
   };
 
   const fetchMovieTrailer = async () => {
@@ -92,16 +116,21 @@ export const MovieInfo = () => {
     const results = response.data.results;
 
     /**Filter through array of objects where key matches string */
-    const officialTrailerObj = results.find((obj: any) =>
+    let officialTrailerObj = results.find((obj: any) =>
       obj.name.includes("Official")
     );
+
+    if (!officialTrailerObj) {
+      officialTrailerObj = results.find((obj: any) =>
+        obj.name.includes("Trailer")
+      );
+    }
+    console.log("officialTrailerObj", officialTrailerObj);
     const trailerKey = officialTrailerObj["key"];
     /**Youtube base url */
     const url = `https://www.youtube.com/embed/${trailerKey}`;
 
     setTrailerUrl(url);
-
-    console.log("trailer: ", officialTrailerObj);
   };
 
   useEffect(() => {
@@ -110,6 +139,19 @@ export const MovieInfo = () => {
   }, []);
   return (
     <Box m="1rem">
+      {!trailerUrl ? (
+        <Box textAlign={"center"} h="2rem">
+          Cannot find trailer for this movie.
+          <Link
+            color="teal.500"
+            href={`https://www.google.com/search?q=${movie.title} trailer`}
+            isExternal
+            pl="1rem"
+          >
+            Search <ExternalLinkIcon mx="2px" />
+          </Link>
+        </Box>
+      ) : null}
       <AspectRatio
         className="videoWrapper"
         m="auto"
@@ -125,7 +167,7 @@ export const MovieInfo = () => {
         m={["1rem", "2rem", null, null]}
       >
         <Box>
-          <Heading color="#2891FC">{movie.original_title}</Heading>
+          <Heading color="#2891FC">{movie.title}</Heading>
           <Heading as="h3" size="1xl">
             {/* October 4, 1995 */}
             {movie.release_date}
@@ -142,9 +184,7 @@ export const MovieInfo = () => {
         <Box>
           {/* Rating */}
           {/* TODO: Fix rating not showing up on some movies */}
-          <Heading>{`Rating ${
-            parentalRating ? parentalRating : "Pending"
-          }`}</Heading>
+          <Heading>{`Rating ${parentalRating ? parentalRating : "?"}`}</Heading>
 
           {/* Directors & Writers */}
           <Text fontWeight={"bold"} as="span">

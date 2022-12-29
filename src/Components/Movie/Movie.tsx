@@ -168,7 +168,7 @@ export const Movie = (props: any) => {
       >
         <Heading as="h3" m="0" size="lg" fontWeight="bold">
           {/* Neon Genesis Evangelion */}
-          {movie.original_title}
+          {movie.title}
         </Heading>
         <Text
           as="span"
