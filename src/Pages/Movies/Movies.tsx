@@ -1,13 +1,12 @@
-import { Container, Flex, Button, Box } from "@chakra-ui/react";
+import { Container, Flex, Button, Box, Center } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useContext } from "react";
 import MovieContext from "../../MovieContext/MovieContext";
 import { Movie } from "../../Components/Movie/Movie";
 
 export const Movies = () => {
-  // const movieContext = useContext(MovieContext)
   const movieContext = useContext(MovieContext);
+
   console.log("page: ", movieContext?.page);
 
   const handlePrevPage = () => {
@@ -17,6 +16,17 @@ export const Movies = () => {
   const handleNextPage = () => {
     movieContext?.setPage(movieContext.page + 1);
   };
+
+  // const disableButton = () => {
+  //   setIsDisabled(movieContext?.isResultsEmpty as boolean);
+  //   console.log("disabled button");
+  // };
+
+  // useEffect(() => {
+  //   disableButton();
+  // }, [movieContext?.isResultsEmpty]);
+
+  // setIsDisabled(false)
   // const [movies, setMovie] = useState<any[]>([]);
 
   // const fetchMovie = async () => {
@@ -41,16 +51,12 @@ export const Movies = () => {
         flexWrap={"wrap"}
         justifyContent="center"
         alignItems={"center"}
-        // bg="blue"
-        // mt="1rem"
         p="1"
-        // flexDir='row'
-        // maxW="100%"
         gap="1rem"
-        // py={[0, 10, 20]}
-        // direction={{ base: "column-reverse", md: "row" }}
-        // bg={["skyblue", "blue", "yellow"]}
       >
+        {movieContext?.isResultsEmpty ? (
+          <Center h="74vh">No results were found </Center>
+        ) : null}
         {movieContext?.movies.map((movie) => (
           <Movie key={movie.id} movie={movie} isFav={false} />
         ))}
@@ -61,7 +67,12 @@ export const Movies = () => {
         ) : (
           <Button onClick={handlePrevPage}>Prev</Button>
         )}
-        <Button onClick={handleNextPage}>Next</Button>
+        <Button
+          disabled={movieContext?.isResultsEmpty}
+          onClick={handleNextPage}
+        >
+          Next
+        </Button>
       </Flex>
     </Container>
   );

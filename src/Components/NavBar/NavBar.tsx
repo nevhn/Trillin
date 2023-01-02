@@ -100,13 +100,15 @@ export const NavBar = () => {
   const handleInputChange = (value: any) => {
     setQuery(value);
     if (value.trim().length === 0) {
-      movieContext?.setEmptyInput(true);
+      // movieContext?.setEmptyInput(true);
+      movieContext?.setUrl(
+        "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US"
+      );
       return;
       // movieContext?.setMovies(movieContext.cachedMovies);
     }
     searchQuery(value);
     movieContext?.setPage(1);
-    console.log("!");
   };
 
   const handleSearchSubmission = async (e: any) => {

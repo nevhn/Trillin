@@ -17,6 +17,8 @@ export interface MovieContextInterface {
   setCompleted: React.Dispatch<React.SetStateAction<any[]>>;
   watchLater: any[];
   setWatchLater: React.Dispatch<React.SetStateAction<any[]>>;
+  isResultsEmpty: boolean;
+  setIsResultsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MovieContext = createContext<MovieContextInterface | null>(null);

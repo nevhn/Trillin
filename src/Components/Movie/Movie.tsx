@@ -216,7 +216,7 @@ export const Movie = (props: any) => {
               {isAuthenticated ? (
                 <Flex justifyContent={"space-between"} mt="2rem">
                   {/* Add tool lips */}
-                  {currentPath === "/" ? (
+                  {currentPath === "/" || currentPath.includes("/search") ? (
                     <>
                       <Box
                         className="CompletedBox"

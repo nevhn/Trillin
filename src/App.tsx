@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Box,
+  Center,
   ChakraProvider,
   Container,
   // theme,
@@ -93,15 +94,25 @@ export const App = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [isResultsEmpty, setIsResultsEmpty] = useState(false);
+
   const fetchMovies = async () => {
     // const response = await axios.get(
     //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
     // );
     const response = await axios.get(url);
-    const listOfMovies = response.data.results;
-    setMovies(listOfMovies);
-    // console.log(response.data.results);
+    setIsResultsEmpty(Boolean(!response.data.results.length));
+    setMovies(response.data.results);
     setLoading(false);
+  };
+
+  const fetchNextPage = async () => {
+    const response = await axios.get(url + `&page=${page}`);
+    setIsResultsEmpty(Boolean(!response.data.results.length));
+    setMovies(response.data.results);
+    setLoading(false);
+    console.log("response: ", response.data);
+    console.log("isResultsEmpty", isResultsEmpty);
   };
 
   useEffect(() => {
@@ -109,11 +120,6 @@ export const App = () => {
   }, [emptyInput, url]);
 
   useEffect(() => {
-    const fetchNextPage = async () => {
-      const response = await axios.get(url + `&page=${page}`);
-      setMovies(response.data.results);
-      setLoading(false);
-    };
     fetchNextPage();
   }, [page]);
 
@@ -157,6 +163,8 @@ export const App = () => {
         setCompleted,
         watchLater,
         setWatchLater,
+        isResultsEmpty,
+        setIsResultsEmpty,
       }}
     >
       <ChakraProvider theme={theme}>
