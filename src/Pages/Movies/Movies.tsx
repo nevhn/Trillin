@@ -1,5 +1,4 @@
 import { Container, Flex, Button, Box, Center } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import { useContext } from "react";
 import MovieContext from "../../MovieContext/MovieContext";
 import { Movie } from "../../Components/Movie/Movie";

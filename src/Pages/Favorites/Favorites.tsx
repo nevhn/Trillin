@@ -1,15 +1,5 @@
-import {
-  Flex,
-  Heading,
-  Center,
-  Box,
-  BoxProps,
-  Spinner,
-  Container,
-} from "@chakra-ui/react";
-import { useContext } from "react";
+import { Flex, Heading, Center, Box } from "@chakra-ui/react";
 import { Movie } from "../../Components/Movie/Movie";
-import MovieContext from "../../MovieContext/MovieContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const Favorites = () => {

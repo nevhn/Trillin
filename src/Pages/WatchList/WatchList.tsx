@@ -1,10 +1,10 @@
 import { Movie } from "../../Components/Movie/Movie";
-import { Flex, Heading, Center, Box, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Center, Box } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const WatchList = () => {
   const watchLater = JSON.parse(localStorage.getItem("watch-later")!);
-  const { isLoading, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   console.log(`watch later: ${watchLater}`);
 
   // if (isLoading) {

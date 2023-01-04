@@ -6,13 +6,7 @@ import {
 } from "@chakra-ui/icons";
 import {
   Box,
-  Grid,
-  GridItem,
-  SimpleGrid,
-  Center,
-  Container,
   Flex,
-  Spacer,
   Img,
   Heading,
   Text,
@@ -25,8 +19,6 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useContext } from "react";
-import MovieContext from "../../MovieContext/MovieContext";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -39,8 +31,6 @@ export const Movie = (props: any) => {
   const { isAuthenticated } = useAuth0();
 
   const currentPath = useLocation().pathname;
-
-  const movieContext = useContext(MovieContext);
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 

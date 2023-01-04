@@ -17,17 +17,21 @@ export const SearchResults = () => {
   console.log(movieQuery);
 
   const fetchSearchResults = async () => {
-    const response = await axios(
-      `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${movieQuery}&include_adult=false&region=US&page=` +
-        pageNum
-    );
-    const listOfMovies = response.data.results;
+    try {
+      const response = await axios(
+        `https://api.themoviedb.org/3/search/movie?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&query=${movieQuery}&include_adult=false&region=US&page=` +
+          pageNum
+      );
+      const listOfMovies = response.data.results;
 
-    setIsResultsEmpty(Boolean(!listOfMovies.length));
+      setIsResultsEmpty(Boolean(!listOfMovies.length));
 
-    setMovie(listOfMovies);
+      setMovie(listOfMovies);
 
-    console.log(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handlePrevPage = () => {

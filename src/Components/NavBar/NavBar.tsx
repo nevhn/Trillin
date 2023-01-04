@@ -1,6 +1,4 @@
-import { useState, useContext, ChangeEvent, FormEvent, useEffect } from "react";
-
-import axios from "axios";
+import { useState, useContext, useEffect } from "react";
 
 import {
   Box,
@@ -63,9 +61,6 @@ export const NavBar = () => {
 
   const [selectedOption, setSelectedOption] = useState("upcoming");
   // const [searchPageNum, setPageNum] = useState(1);
-  const [optionPageNum, setOptionPageNum] = useState(1);
-
-  const [token, setToken] = useState("");
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -73,14 +68,8 @@ export const NavBar = () => {
 
   const currentPath = useLocation().pathname;
 
-  const {
-    loginWithRedirect,
-    user,
-    isAuthenticated,
-    isLoading,
-    logout,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated, isLoading, logout } =
+    useAuth0();
 
   const searchQuery = async (query: string) => {
     // const response = await axios.get(

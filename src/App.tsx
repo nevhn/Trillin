@@ -17,7 +17,6 @@ import { RouteError } from "./Pages/Error/RouteError";
 import { Favorites } from "./Pages/Favorites/Favorites";
 import { WatchList } from "./Pages/WatchList/WatchList";
 import { CompletedList } from "./Pages/CompletedList/CompletedList";
-// import { Logout } from "./Pages/Logout/Logout";
 import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
@@ -30,9 +29,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const AppLayout = () => (
   <>
     <NavBar />
-    {/* <BgCircle /> */}
     <Outlet />
-    {/* <Footer /> */}
   </>
 );
 
@@ -60,10 +57,6 @@ const router = createBrowserRouter([
         path: "completed-list",
         element: <CompletedList />,
       },
-      // {
-      //   path: "logout",
-      //   element: <Logout />,
-      // },
       {
         path: "search/:movieQuery",
         element: <SearchResults />,
@@ -100,27 +93,38 @@ export const App = () => {
     // const response = await axios.get(
     //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
     // );
-    const response = await axios.get(url);
-    setIsResultsEmpty(Boolean(!response.data.results.length));
-    setMovies(response.data.results);
-    setLoading(false);
+
+    try {
+      const response = await axios.get(url);
+      setIsResultsEmpty(Boolean(!response.data.results.length));
+      setMovies(response.data.results);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const fetchNextPage = async () => {
-    const response = await axios.get(url + `&page=${page}`);
-    setIsResultsEmpty(Boolean(!response.data.results.length));
-    setMovies(response.data.results);
-    setLoading(false);
-    console.log("response: ", response.data);
-    console.log("isResultsEmpty", isResultsEmpty);
+    try {
+      const response = await axios.get(url + `&page=${page}`);
+      setIsResultsEmpty(Boolean(!response.data.results.length));
+      setMovies(response.data.results);
+      setLoading(false);
+      console.log("response: ", response.data);
+      console.log("isResultsEmpty", isResultsEmpty);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     fetchMovies();
+    console.log("calling endpoint : ", url);
   }, [emptyInput, url]);
 
   useEffect(() => {
     fetchNextPage();
+    console.log("calling endpoint : ", url);
   }, [page]);
 
   // if (loading) {

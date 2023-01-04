@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export const CompletedList = () => {
   const completed = JSON.parse(localStorage.getItem("completed")!);
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   console.log(`completed: ${completed}`);
 
   // if (isLoading) {
