@@ -23,7 +23,7 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 
-import { MoonIcon, SunIcon, SearchIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 import MovieContext from "../../MovieContext/MovieContext";
 
@@ -60,7 +60,6 @@ export const NavBar = () => {
   const [query, setQuery] = useState("");
 
   const [selectedOption, setSelectedOption] = useState("upcoming");
-  // const [searchPageNum, setPageNum] = useState(1);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -150,8 +149,14 @@ export const NavBar = () => {
         px={10}
         mt="1rem"
         boxShadow={"md"}
+        // bgColor="red"
       >
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Flex
+          h={16}
+          // bgColor="blue"
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <Box>
             <Heading
               color={useColorModeValue("gray.800", "white")}
@@ -168,7 +173,7 @@ export const NavBar = () => {
             {currentPath == "/" ? (
               <Stack direction={"row"} spacing={3}>
                 <Select
-                  defaultValue={"upcoming"}
+                  // defaultValue={"upcoming"}
                   value={selectedOption}
                   onChange={handleSelect}
                 >
@@ -185,6 +190,7 @@ export const NavBar = () => {
                 <form onSubmit={(e) => handleSearchSubmission(e)}>
                   <Input
                     w={{ base: "xs" }}
+                    display={{ base: "none" }}
                     variant={"outline"}
                     whiteSpace={"nowrap"}
                     bg="gray.200"
@@ -197,7 +203,11 @@ export const NavBar = () => {
                   />
 
                   <IconButton aria-label="submit button" type="submit">
-                    <SearchIcon className="SearchIcon" color="gray.5ada00" />
+                    <SearchIcon
+                      display={{ base: "none" }}
+                      className="SearchIcon"
+                      color="gray.5ada00"
+                    />
                   </IconButton>
                 </form>
               </FormControl>

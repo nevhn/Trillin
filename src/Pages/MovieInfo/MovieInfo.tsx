@@ -199,7 +199,10 @@ export const MovieInfo = () => {
           </Text>
           <Text as="span">
             {cast.map((actor) => (
-              <Text as="p"> {actor} </Text>
+              <Text key={actor} as="p">
+                {" "}
+                {actor}{" "}
+              </Text>
             ))}
           </Text>
           <br />
@@ -210,7 +213,10 @@ export const MovieInfo = () => {
           </Text>
           <Text as="span">
             {genres.map((genre) => (
-              <Text as="p"> {genre}</Text>
+              <Text key={genre} as="p">
+                {" "}
+                {genre}
+              </Text>
             ))}
           </Text>
           <br />

@@ -1,3 +1,4 @@
+import MissingPoster from "./MissingPoster.png";
 import {
   ExternalLinkIcon,
   StarIcon,
@@ -21,6 +22,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 export const Movie = (props: any) => {
   // const movie = props.movie;
@@ -37,6 +39,8 @@ export const Movie = (props: any) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const [watchLater, setWatchLater] = useState<boolean>(false);
+
+  const [isPosterValid, setIsPosterValid] = useState<boolean>(false);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -123,12 +127,20 @@ export const Movie = (props: any) => {
     if (matchId) setWatchLater(true);
   };
 
+  const checkPosterUrl = async () => {
+    const img = new Image() as HTMLImageElement;
+    img.src = `https://image.tmdb.org/t/p/original/${movie.poster_path}`;
+    img.onload = function () {
+      setIsPosterValid(img.naturalWidth > 0);
+    };
+  };
+
   useEffect(() => {
+    /**Check if favorites in local storage is empty. If empty create the key and values | match the movie id with the fav movie id and isFav to true*/
     initializeLocalFavorites();
     initializeLocalCompleted();
     initializeLocalWatchLater();
-
-    /**Check if favorites in local storage is empty. If empty create the key and values | match the movie id with the fav movie id and isFav to true*/
+    checkPosterUrl();
   }, []);
 
   return (
@@ -145,8 +157,11 @@ export const Movie = (props: any) => {
     >
       <Img
         w={"100%"}
-        // src="https://m.media-amazon.com/images/M/MV5BODZkZjUxNmEtMGEyOS00ZDY5LTkxZDMtZTJkZDBiZTkyOWRkXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg"
-        src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+        src={
+          isPosterValid
+            ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+            : MissingPoster
+        }
       />
       <Flex
         className="move-data"
@@ -157,7 +172,6 @@ export const Movie = (props: any) => {
         bg={"eee"}
       >
         <Heading as="h3" m="0" size="lg" fontWeight="bold">
-          {/* Neon Genesis Evangelion */}
           {movie.title}
         </Heading>
         <Text
@@ -166,7 +180,6 @@ export const Movie = (props: any) => {
           fontWeight="bold"
           padding="0.25rem 0.5rem"
         >
-          {/* 8.5 */}
           {movie.vote_average}
         </Text>
         <Fade in={isOpen}>
@@ -182,89 +195,84 @@ export const Movie = (props: any) => {
             right="0"
           >
             <Heading as="h3" mt="0" size="md" color={textOverview}>
-              {/* October 4, 1995 */}
               {movie.release_date}
             </Heading>
             <Heading as="h3" mt="0" size="lg" color={textOverview}>
               Overview
             </Heading>
-            <Text color={textOverview}>
-              {/* A teenage boy finds himself recruited as a member of an elite
-                  team of pilots by his father. */}
-              {movie.overview}
-            </Text>
-            <Text color={textOverview}>
-              <Box>
-                <Link
-                  color="teal.500"
-                  href={`/movie-info/${movie.id}`}
-                  isExternal
-                >
-                  More info <ExternalLinkIcon mx="2px" />
-                </Link>
-              </Box>
-              {isAuthenticated ? (
-                <Flex justifyContent={"space-between"} mt="2rem">
-                  {/* Add tool lips */}
-                  {currentPath === "/" || currentPath.includes("/search") ? (
-                    <>
-                      <Box
-                        className="CompletedBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                      >
-                        <CheckIcon
-                          w={6}
-                          h={6}
-                          onClick={addToCompleted}
-                          color={isCompleted ? "blue" : "white"}
-                        />
-                      </Box>
-                      <Box
-                        className="favoritesBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                        // _hover={{
-                        //   WebkitTransform: "translateY(-8px)",
-                        //   transform: "translateY(-8px)",
-                        // }}
-                      >
-                        <StarIcon
-                          w={6}
-                          h={6}
-                          onClick={addToFavorites}
-                          color={isFavorite ? "red" : "white"}
-                        />
-                      </Box>
+            <Text color={textOverview}>{movie.overview}</Text>
+            {/* <Text color={textOverview}> */}
+            <Box>
+              <Link
+                color="teal.500"
+                href={`/movie-info/${movie.id}`}
+                isExternal
+              >
+                More info <ExternalLinkIcon mx="2px" />
+              </Link>
+            </Box>
+            {isAuthenticated ? (
+              <Flex justifyContent={"space-between"} mt="2rem">
+                {/* Add tool lips */}
+                {currentPath === "/" || currentPath.includes("/search") ? (
+                  <>
+                    <Box
+                      className="CompletedBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                    >
+                      <CheckIcon
+                        w={6}
+                        h={6}
+                        onClick={addToCompleted}
+                        color={isCompleted ? "blue" : "white"}
+                      />
+                    </Box>
+                    <Box
+                      className="favoritesBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                      // _hover={{
+                      //   WebkitTransform: "translateY(-8px)",
+                      //   transform: "translateY(-8px)",
+                      // }}
+                    >
+                      <StarIcon
+                        w={6}
+                        h={6}
+                        onClick={addToFavorites}
+                        color={isFavorite ? "red" : "white"}
+                      />
+                    </Box>
 
-                      <Box
-                        className="watchLaterBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                        color={watchLater ? "orange" : "white"}
-                      >
-                        <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
-                      </Box>
-                    </>
-                  ) : null}
-                </Flex>
-              ) : null}
-            </Text>
+                    <Box
+                      className="watchLaterBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                      color={watchLater ? "orange" : "white"}
+                    >
+                      <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
+                    </Box>
+                  </>
+                ) : null}
+              </Flex>
+            ) : null}
+            {/* </Text> */}
           </Box>
         </Fade>
       </Flex>
