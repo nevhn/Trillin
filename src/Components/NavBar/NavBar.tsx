@@ -14,7 +14,6 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  useColorMode,
   Center,
   IconButton,
   Input,
@@ -31,28 +30,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-// export const NavLink = ({ children }: { children: ReactNode }) => (
-//   <Link
-//     px={2}
-//     py={1}
-//     rounded={"md"}
-//     _hover={{
-//       textDecoration: "none",
-//       bg: useColorModeValue("gray.200", "gray.700"),
-//     }}
-//     href={"#"}
-//   >
-//     {children}
-//   </Link>
-// );
-
 export const NavBar = () => {
-  /**
-   * Add divider between theme button
-   *
-   *
-   */
-
   const navigate = useNavigate();
 
   const movieContext = useContext(MovieContext);
@@ -60,8 +38,6 @@ export const NavBar = () => {
   const [query, setQuery] = useState("");
 
   const [selectedOption, setSelectedOption] = useState("upcoming");
-
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -101,7 +77,6 @@ export const NavBar = () => {
 
   const handleSearchSubmission = async (e: any) => {
     e.preventDefault();
-    // const value = e.target[0].value;
     if (!query.length) {
       console.log("0");
       return;
@@ -145,39 +120,30 @@ export const NavBar = () => {
     <>
       <Box
         as="nav"
-        bg={useColorModeValue("gray.100", "#201C1C")}
-        px={10}
+        // bg={useColorModeValue("gray.100", "#201C1C")}
+        px={12}
         mt="1rem"
-        boxShadow={"md"}
-        // bgColor="red"
+        boxShadow={"lg"}
+        // bgColor="red.500"
       >
-        <Flex
-          h={16}
-          // bgColor="blue"
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <Heading
-              color={useColorModeValue("gray.800", "white")}
-              fontWeight={"black"}
-              textAlign="center"
-            >
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+          <Flex alignItems={"center"} gap="6">
+            <Heading color="white" fontWeight={"black"} textAlign="center">
               <Link _hover={{ textDecoration: "none" }} href={"/"}>
                 Trillin
               </Link>
             </Heading>
-          </Box>
-
-          <Flex alignItems={"center"} gap={24}>
             {currentPath == "/" ? (
               <Stack direction={"row"} spacing={3}>
                 <Select
-                  // defaultValue={"upcoming"}
+                  className="sort-by"
+                  color={"white"}
+                  textColor="white"
+                  borderColor="red"
+                  // bgColor={"black"}
                   value={selectedOption}
                   onChange={handleSelect}
                 >
-                  {/* TODO: Figure out what url the main page is calling and set as the default value for the selection menu */}
                   <option value="upcoming">Upcoming</option>
                   <option value="popular">Popularity</option>
                   <option value="top_rated">Top Rating </option>
@@ -185,95 +151,104 @@ export const NavBar = () => {
                 </Select>
               </Stack>
             ) : null}
-            <Box>
-              <FormControl>
+          </Flex>
+          <Flex className="left-side" alignItems={"center"}>
+            <Stack direction={"row"} spacing={7}>
+              <Flex alignItems={"center"} gap="24">
                 <form onSubmit={(e) => handleSearchSubmission(e)}>
                   <Input
-                    w={{ base: "xs" }}
-                    display={{ base: "none" }}
-                    variant={"outline"}
-                    whiteSpace={"nowrap"}
-                    bg="gray.200"
-                    _placeholder={{ color: "gray.700" }}
+                    w="xs"
+                    color="whiteAlpha.800"
+                    mr="1rem"
                     textAlign={"center"}
                     placeholder="Search movie"
-                    onChange={(e) => handleInputChange(e.target.value)}
+                    padding={"10px 10px 10px 5px"}
+                    border="none"
+                    borderRadius={0}
+                    borderBottom="1px solid white"
+                    _focusVisible={{
+                      outline: "none",
+                      borderBottomColor: "red",
+                    }}
+                    _hover={{ borderBottomColor: "red" }}
                     value={query}
-                    mr="1rem"
+                    onChange={(e) => handleInputChange(e.target.value)}
                   />
 
-                  <IconButton aria-label="submit button" type="submit">
+                  <IconButton
+                    variant={"outline"}
+                    color="red"
+                    aria-label="submit button"
+                    type="submit"
+                    _hover={{ bgColor: "red", borderColor: "red" }}
+                  >
                     <SearchIcon
-                      display={{ base: "none" }}
+                      // display={{ base: "none" }}
                       className="SearchIcon"
-                      color="gray.5ada00"
+                      color="white"
                     />
                   </IconButton>
                 </form>
-              </FormControl>
-            </Box>
-            {/* <IconButton
-                  m="0"
-                  colorScheme="blue"
-                  aria-label="Search Movies"
-                  icon={<SearchIcon />}
-                /> */}
-            {isAuthenticated ? (
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
-                >
-                  <Avatar
-                    size={"sm"}
-                    src={"https://avatars.dicebear.com/api/male/username.svg"}
-                  />
-                </MenuButton>
-                <MenuList alignItems={"center"}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={"2xl"}
-                      src={"https://avatars.dicebear.com/api/male/username.svg"}
-                    />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>{user?.nickname?.toUpperCase()}</p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem>
-                    {" "}
-                    <Link href="/favorites"> Your favorites </Link>{" "}
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href="/watch-list"> Your watch list </Link>{" "}
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href="/completed-list"> Your completed list </Link>{" "}
-                  </MenuItem>
-                  <MenuItem>
-                    <Link onClick={handleLogout}>Logout</Link>{" "}
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            ) : (
-              <Box>{}</Box>
-            )}
-            {!isAuthenticated && !isLoading ? (
-              <Box ml="-12">
-                <Button onClick={handleLogin}>Login</Button>
-              </Box>
-            ) : null}
-            <Box ml="-12">
-              <Button onClick={toggleColorMode}>
-                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              </Button>
-            </Box>
+                {isAuthenticated ? (
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rounded={"full"}
+                      variant={"link"}
+                      cursor={"pointer"}
+                      minW={0}
+                    >
+                      <Avatar
+                        size={"sm"}
+                        // src={"https://avatars.dicebear.com/api/male/username.svg"}
+                      />
+                    </MenuButton>
+                    <MenuList alignItems={"center"}>
+                      <br />
+                      <Center>
+                        <Avatar
+                          size={"2xl"}
+                          // src={"https://avatars.dicebear.com/api/male/username.svg"}
+                        />
+                      </Center>
+                      <br />
+                      <Center>
+                        <p>{user?.nickname?.toUpperCase()}</p>
+                      </Center>
+                      <br />
+                      <MenuDivider />
+                      <MenuItem>
+                        <Link href="/favorites"> Your favorites </Link>{" "}
+                      </MenuItem>
+                      <MenuItem>
+                        <Link href="/watch-list"> Your watch list </Link>{" "}
+                      </MenuItem>
+                      <MenuItem>
+                        <Link href="/completed-list">
+                          {" "}
+                          Your completed list{" "}
+                        </Link>{" "}
+                      </MenuItem>
+                      <MenuItem>
+                        <Link onClick={handleLogout}>Logout</Link>{" "}
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <Box>{}</Box>
+                )}
+                {!isAuthenticated && !isLoading ? (
+                  <Box ml="-12">
+                    <Button
+                      _hover={{ bgColor: "red", color: "white" }}
+                      onClick={handleLogin}
+                    >
+                      Login
+                    </Button>
+                  </Box>
+                ) : null}
+              </Flex>
+            </Stack>
           </Flex>
         </Flex>
       </Box>

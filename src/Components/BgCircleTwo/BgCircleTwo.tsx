@@ -1,9 +1,10 @@
 import { Box } from "@chakra-ui/react";
-export const BgCircle = () => {
+export const BgCircleTwo = () => {
   return (
     <Box
       className="bg-grad"
-      pos="absolute"
+      // pos=""
+      float={"right"}
       zIndex={3}
       pointerEvents="none"
       // w={{ base: "100%", md: "50%" }}
@@ -17,7 +18,7 @@ export const BgCircle = () => {
         left="-300px"
         right="auto"
         bottom="auto"
-        bg={"#2891FC"}
+        bg={"#B03737"}
         borderRadius="full"
         filter={"blur(100px)"}
         opacity="30%"

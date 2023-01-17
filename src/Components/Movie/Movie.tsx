@@ -16,7 +16,7 @@ import {
   useDisclosure,
   useColorMode,
   useColorModeValue,
-  ScaleFade,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -216,58 +216,64 @@ export const Movie = (props: any) => {
                 {/* Add tool lips */}
                 {currentPath === "/" || currentPath.includes("/search") ? (
                   <>
-                    <Box
-                      className="CompletedBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                    >
-                      <CheckIcon
-                        w={6}
-                        h={6}
-                        onClick={addToCompleted}
-                        color={isCompleted ? "blue" : "white"}
-                      />
-                    </Box>
-                    <Box
-                      className="favoritesBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                      // _hover={{
-                      //   WebkitTransform: "translateY(-8px)",
-                      //   transform: "translateY(-8px)",
-                      // }}
-                    >
-                      <StarIcon
-                        w={6}
-                        h={6}
-                        onClick={addToFavorites}
-                        color={isFavorite ? "red" : "white"}
-                      />
-                    </Box>
+                    <Tooltip label="Save to your Completed ">
+                      <Box
+                        className="CompletedBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                      >
+                        <CheckIcon
+                          w={6}
+                          h={6}
+                          onClick={addToCompleted}
+                          color={isCompleted ? "blue" : "white"}
+                        />
+                      </Box>
+                    </Tooltip>
+                    <Tooltip label="Save to your Favorites">
+                      <Box
+                        className="favoritesBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                        // _hover={{
+                        //   WebkitTransform: "translateY(-8px)",
+                        //   transform: "translateY(-8px)",
+                        // }}
+                      >
+                        <StarIcon
+                          w={6}
+                          h={6}
+                          onClick={addToFavorites}
+                          color={isFavorite ? "red" : "white"}
+                        />
+                      </Box>
+                    </Tooltip>
 
-                    <Box
-                      className="watchLaterBox"
-                      __css={{
-                        transform: "perspective(1px) translateZ(0)",
-                        transitionDuration: "0.3s",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "ease-out",
-                        _hover: { transform: "translateY(-8px)" },
-                      }}
-                      color={watchLater ? "orange" : "white"}
-                    >
-                      <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
-                    </Box>
+                    <Tooltip label="Save to Watch later">
+                      <Box
+                        className="watchLaterBox"
+                        __css={{
+                          transform: "perspective(1px) translateZ(0)",
+                          transitionDuration: "0.3s",
+                          transitionProperty: "transform",
+                          transitionTimingFunction: "ease-out",
+                          _hover: { transform: "translateY(-8px)" },
+                        }}
+                        color={watchLater ? "orange" : "white"}
+                      >
+                        <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
+                      </Box>
+                    </Tooltip>
                   </>
                 ) : null}
               </Flex>

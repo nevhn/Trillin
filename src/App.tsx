@@ -25,10 +25,13 @@ import { BgCircle } from "./Components/BgCircle/BgCircle";
 import { Oval } from "react-loader-spinner";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { BgCircleTwo } from "./Components/BgCircleTwo/BgCircleTwo";
 
 const AppLayout = () => (
   <>
     <NavBar />
+    {/* <BgCircle /> */}
+    {/* <BgCircleTwo /> */}
     <Outlet />
   </>
 );
@@ -185,7 +188,7 @@ export const App = () => {
               width={100}
               strokeWidth={5}
               strokeWidthSecondary={1}
-              color="blue"
+              color="red"
               secondaryColor="white"
             />
           </Box>
