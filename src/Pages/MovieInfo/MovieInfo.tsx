@@ -164,27 +164,32 @@ export const MovieInfo = () => {
         className="movie-desc"
         direction={["column", "row"]}
         justifyContent={"space-between"}
-        m={["1rem", "2rem", null, null]}
+        backgroundColor="green"
+        // m={["1rem", "2rem", null, null]}
+        // p="auto"
+        minW="80%"
       >
-        <Box>
-          <Heading color="#2891FC">{movie.title}</Heading>
-          <Heading as="h3" size="1xl">
-            {/* October 4, 1995 */}
-            {movie.release_date}
+        <Flex bg="red">
+          <Heading mb="1rem" color="#2891FC">
+            {movie.title}
           </Heading>
-          <Text as="span">
-            {/* A teenage boy finds himself recruited as a member of an elite team
-            of pilots by his father. */}
-            {movie.overview}
-          </Text>
-
+          <Flex gap="4">
+            <Heading as="h3" size="1xl">
+              {movie.release_date}
+            </Heading>
+            <Heading as="h3" size="1xl">{`Rating ${
+              parentalRating ? parentalRating : "?"
+            }`}</Heading>
+          </Flex>
+          <Box w={{ base: "90%" }}>
+            <Text as="span">{movie.overview}</Text>
+          </Box>
           {/* Date released/ Upcoming */}
-        </Box>
+        </Flex>
 
         <Box>
           {/* Rating */}
           {/* TODO: Fix rating not showing up on some movies */}
-          <Heading>{`Rating ${parentalRating ? parentalRating : "?"}`}</Heading>
 
           {/* Directors & Writers */}
           <Text fontWeight={"bold"} as="span">

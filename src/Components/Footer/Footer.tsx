@@ -1,7 +1,6 @@
 import { ButtonGroup, Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
 // import Logo from "../../Logo.svg";
 
 export const Footer = () => {

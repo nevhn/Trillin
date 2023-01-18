@@ -14,7 +14,6 @@ import {
   Link,
   Fade,
   useDisclosure,
-  useColorMode,
   useColorModeValue,
   Tooltip,
 } from "@chakra-ui/react";
@@ -22,12 +21,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 
 export const Movie = (props: any) => {
-  // const movie = props.movie;
-  // const isFav = props.isFav;
-
   const { movie } = props;
 
   const { isAuthenticated } = useAuth0();
@@ -41,8 +36,6 @@ export const Movie = (props: any) => {
   const [watchLater, setWatchLater] = useState<boolean>(false);
 
   const [isPosterValid, setIsPosterValid] = useState<boolean>(false);
-
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const { isOpen, onToggle } = useDisclosure();
 
@@ -193,6 +186,18 @@ export const Movie = (props: any) => {
             left="0"
             bottom="0"
             right="0"
+            __css={{
+              "&::-webkit-scrollbar": {
+                w: "2",
+              },
+              "&::-webkit-scrollbar-track": {
+                w: "6",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                borderRadius: "10",
+                bg: `gray.100`,
+              },
+            }}
           >
             <Heading as="h3" mt="0" size="md" color={textOverview}>
               {movie.release_date}

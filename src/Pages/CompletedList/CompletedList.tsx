@@ -1,5 +1,5 @@
 import { Movie } from "../../Components/Movie/Movie";
-import { Flex, Heading, Center, Box, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Center, Box } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const CompletedList = () => {

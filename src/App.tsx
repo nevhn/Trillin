@@ -2,12 +2,10 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Box,
-  Center,
   ChakraProvider,
-  Container,
   // theme,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
+// import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import theme from "./theme";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Footer } from "./Components/Footer/Footer";
@@ -20,12 +18,12 @@ import { CompletedList } from "./Pages/CompletedList/CompletedList";
 import { SearchResults } from "./Pages/SearchResults/SearchResults";
 import MovieContext from "./MovieContext/MovieContext";
 import axios from "axios";
-import { BgCircle } from "./Components/BgCircle/BgCircle";
+// import { BgCircle } from "./Components/BgCircle/BgCircle";
 
 import { Oval } from "react-loader-spinner";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { BgCircleTwo } from "./Components/BgCircleTwo/BgCircleTwo";
+// import { BgCircleTwo } from "./Components/BgCircleTwo/BgCircleTwo";
 
 const AppLayout = () => (
   <>
@@ -70,7 +68,7 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
-  const { isLoading, isAuthenticated } = useAuth0();
+  const { isLoading } = useAuth0();
 
   const [url, setUrl] = useState(
     "https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US"
@@ -92,42 +90,39 @@ export const App = () => {
 
   const [isResultsEmpty, setIsResultsEmpty] = useState(false);
 
-  const fetchMovies = async () => {
-    // const response = await axios.get(
-    //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
-    // );
-
-    try {
-      const response = await axios.get(url);
-      setIsResultsEmpty(Boolean(!response.data.results.length));
-      setMovies(response.data.results);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const fetchNextPage = async () => {
-    try {
-      const response = await axios.get(url + `&page=${page}`);
-      setIsResultsEmpty(Boolean(!response.data.results.length));
-      setMovies(response.data.results);
-      setLoading(false);
-      console.log("response: ", response.data);
-      console.log("isResultsEmpty", isResultsEmpty);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
+    const fetchMovies = async () => {
+      // const response = await axios.get(
+      //   `https://api.themoviedb.org/3/movie/upcoming?api_key=13f9b567969342bbfb2322ca39624376&language=en-US&page=${pageNum}`
+      // );
+
+      // eslint-disable-next-line
+      try {
+        const response = await axios.get(url);
+        setIsResultsEmpty(Boolean(!response.data.results.length));
+        setMovies(response.data.results);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchMovies();
     console.log("calling endpoint : ", url);
   }, [emptyInput, url]);
 
   useEffect(() => {
+    const fetchNextPage = async () => {
+      try {
+        const response = await axios.get(url + `&page=${page}`);
+        setIsResultsEmpty(Boolean(!response.data.results.length));
+        setMovies(response.data.results);
+        setLoading(false);
+        console.log("response: ", response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchNextPage();
-    console.log("calling endpoint : ", url);
   }, [page]);
 
   // if (loading) {

@@ -11,18 +11,15 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
-  useColorModeValue,
   Stack,
   Center,
   IconButton,
   Input,
   Select,
   Heading,
-  FormControl,
 } from "@chakra-ui/react";
 
-import { MoonIcon, SunIcon, SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 
 import MovieContext from "../../MovieContext/MovieContext";
 
@@ -39,7 +36,7 @@ export const NavBar = () => {
 
   const [selectedOption, setSelectedOption] = useState("upcoming");
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   const currentPath = useLocation().pathname;
 
@@ -203,7 +200,7 @@ export const NavBar = () => {
                         // src={"https://avatars.dicebear.com/api/male/username.svg"}
                       />
                     </MenuButton>
-                    <MenuList alignItems={"center"}>
+                    <MenuList color="black" alignItems={"center"}>
                       <br />
                       <Center>
                         <Avatar

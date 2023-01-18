@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Flex, Box, Button, Center } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Movie } from "../../Components/Movie/Movie";
-import MovieContext from "../../MovieContext/MovieContext";
 
 export const SearchResults = () => {
   const [movies, setMovie] = useState<any[]>([]);
