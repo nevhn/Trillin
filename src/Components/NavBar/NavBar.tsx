@@ -237,7 +237,13 @@ export const NavBar = () => {
                 {!isAuthenticated && !isLoading ? (
                   <Box ml="-12">
                     <Button
-                      _hover={{ bgColor: "red", color: "white" }}
+                      outlineColor={"red"}
+                      bgColor="black"
+                      _hover={{
+                        bgColor: "red",
+                        color: "white",
+                        outlineColor: "transparent",
+                      }}
                       onClick={handleLogin}
                     >
                       Login

@@ -1,33 +1,21 @@
 import { Movie } from "../../Components/Movie/Movie";
-import { Flex, Heading, Center, Box } from "@chakra-ui/react";
+import { Flex, Heading, Center, Text, Container } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const WatchList = () => {
   const watchLater = JSON.parse(localStorage.getItem("watch-later")!);
-  const { isAuthenticated } = useAuth0();
-  console.log(`watch later: ${watchLater}`);
-
-  // if (isLoading) {
-  //   return (
-  //     <Center mt="1rem">
-  //       <Spinner
-  //         thickness="4px"
-  //         speed="0.65s"
-  //         emptyColor="gray.200"
-  //         color="blue.500"
-  //         size="xl"
-  //         textAlign={"center"}
-  //       />
-  //     </Center>
-  //   );
-  // }
+  const { isAuthenticated, user } = useAuth0();
+  // console.log(`watch later: ${watchLater}`);
 
   return isAuthenticated ? (
     <>
       <Center mt="1rem">
         <Heading as="h1" size="4xl">
-          {"Username"}'s watch list
+          {user?.nickname}'s watch list
         </Heading>
+        <Text ml="4px" as="span" color={"red.300"}>
+          [{watchLater.length}]
+        </Text>
       </Center>
       <Flex
         className="movie-main"
@@ -44,6 +32,8 @@ export const WatchList = () => {
       </Flex>
     </>
   ) : (
-    <Box>You need to be logged in</Box>
+    <Container mt="1rem">
+      <Heading>You need to be logged in</Heading>
+    </Container>
   );
 };

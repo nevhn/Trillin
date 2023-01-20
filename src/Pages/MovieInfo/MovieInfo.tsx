@@ -163,13 +163,17 @@ export const MovieInfo = () => {
       <Flex
         className="movie-desc"
         direction={["column", "row"]}
-        justifyContent={"space-between"}
-        backgroundColor="green"
+        // justifyContent={"center"}
+        // alignContent="center"
+        // backgroundColor="green"
         // m={["1rem", "2rem", null, null]}
         // p="auto"
-        minW="80%"
+        // m="1rem"
+        p="1rem"
+        w={{ base: "100%", xl: "53%" }}
+        m="auto"
       >
-        <Flex bg="red">
+        <Flex flexDirection={"column"}>
           <Heading mb="1rem" color="#2891FC">
             {movie.title}
           </Heading>
@@ -187,10 +191,7 @@ export const MovieInfo = () => {
           {/* Date released/ Upcoming */}
         </Flex>
 
-        <Box>
-          {/* Rating */}
-          {/* TODO: Fix rating not showing up on some movies */}
-
+        <Flex flexDirection={"column"} p="1rem">
           {/* Directors & Writers */}
           <Text fontWeight={"bold"} as="span">
             Director{" "}
@@ -199,7 +200,7 @@ export const MovieInfo = () => {
           <br />
 
           {/* Cast*/}
-          <Text fontWeight={"bold"} as="span">
+          <Text fontWeight={"black"} as="span">
             Cast{" "}
           </Text>
           <Text as="span">
@@ -230,7 +231,7 @@ export const MovieInfo = () => {
             Run Time{" "}
           </Text>
           <Text as="span">{runtime}</Text>
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );

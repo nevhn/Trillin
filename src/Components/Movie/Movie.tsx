@@ -18,7 +18,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -26,8 +26,6 @@ export const Movie = (props: any) => {
   const { movie } = props;
 
   const { isAuthenticated } = useAuth0();
-
-  const currentPath = useLocation().pathname;
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
@@ -219,68 +217,66 @@ export const Movie = (props: any) => {
             {isAuthenticated ? (
               <Flex justifyContent={"space-between"} mt="2rem">
                 {/* Add tool lips */}
-                {currentPath === "/" || currentPath.includes("/search") ? (
-                  <>
-                    <Tooltip label="Save to your Completed ">
-                      <Box
-                        className="CompletedBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                      >
-                        <CheckIcon
-                          w={6}
-                          h={6}
-                          onClick={addToCompleted}
-                          color={isCompleted ? "blue" : "white"}
-                        />
-                      </Box>
-                    </Tooltip>
-                    <Tooltip label="Save to your Favorites">
-                      <Box
-                        className="favoritesBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                        // _hover={{
-                        //   WebkitTransform: "translateY(-8px)",
-                        //   transform: "translateY(-8px)",
-                        // }}
-                      >
-                        <StarIcon
-                          w={6}
-                          h={6}
-                          onClick={addToFavorites}
-                          color={isFavorite ? "red" : "white"}
-                        />
-                      </Box>
-                    </Tooltip>
+                <>
+                  <Tooltip label="Save to your Completed ">
+                    <Box
+                      className="CompletedBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                    >
+                      <CheckIcon
+                        w={6}
+                        h={6}
+                        onClick={addToCompleted}
+                        color={isCompleted ? "blue" : "white"}
+                      />
+                    </Box>
+                  </Tooltip>
+                  <Tooltip label="Save to your Favorites">
+                    <Box
+                      className="favoritesBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                      // _hover={{
+                      //   WebkitTransform: "translateY(-8px)",
+                      //   transform: "translateY(-8px)",
+                      // }}
+                    >
+                      <StarIcon
+                        w={6}
+                        h={6}
+                        onClick={addToFavorites}
+                        color={isFavorite ? "red" : "white"}
+                      />
+                    </Box>
+                  </Tooltip>
 
-                    <Tooltip label="Save to Watch later">
-                      <Box
-                        className="watchLaterBox"
-                        __css={{
-                          transform: "perspective(1px) translateZ(0)",
-                          transitionDuration: "0.3s",
-                          transitionProperty: "transform",
-                          transitionTimingFunction: "ease-out",
-                          _hover: { transform: "translateY(-8px)" },
-                        }}
-                        color={watchLater ? "orange" : "white"}
-                      >
-                        <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
-                      </Box>
-                    </Tooltip>
-                  </>
-                ) : null}
+                  <Tooltip label="Save to Watch later">
+                    <Box
+                      className="watchLaterBox"
+                      __css={{
+                        transform: "perspective(1px) translateZ(0)",
+                        transitionDuration: "0.3s",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "ease-out",
+                        _hover: { transform: "translateY(-8px)" },
+                      }}
+                      color={watchLater ? "orange" : "white"}
+                    >
+                      <PlusSquareIcon w={6} h={6} onClick={addToWatchLater} />
+                    </Box>
+                  </Tooltip>
+                </>
               </Flex>
             ) : null}
             {/* </Text> */}
