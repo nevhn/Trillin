@@ -107,7 +107,7 @@ export const App = () => {
       }
     };
     fetchMovies();
-    console.log("calling endpoint : ", url);
+    // console.log("calling endpoint : ", url);
   }, [emptyInput, url]);
 
   useEffect(() => {
@@ -117,12 +117,13 @@ export const App = () => {
         setIsResultsEmpty(Boolean(!response.data.results.length));
         setMovies(response.data.results);
         setLoading(false);
-        console.log("response: ", response.data);
+        // console.log("response: ", response.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchNextPage();
+    window.scrollTo(0, 0);
   }, [page]);
 
   // if (loading) {

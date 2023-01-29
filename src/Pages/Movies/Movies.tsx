@@ -60,15 +60,30 @@ export const Movies = () => {
           <Movie key={movie.id} movie={movie} isFav={false} />
         ))}
       </Flex>
-      <Flex justifyContent={"space-between"} px="1rem">
+      <Flex justifyContent={"space-between"} px="1rem" mt="10em" mb="10em">
         {movieContext?.page === 1 ? (
           <Box />
         ) : (
-          <Button onClick={handlePrevPage}>Prev</Button>
+          <Button
+            bgColor="red.600"
+            onClick={handlePrevPage}
+            _hover={{
+              bgColor: "red.400",
+              // outlineColor: "red",
+            }}
+          >
+            {" "}
+            Prev
+          </Button>
         )}
         <Button
           disabled={movieContext?.isResultsEmpty}
           onClick={handleNextPage}
+          bgColor="red.600"
+          _hover={{
+            bgColor: "red.400",
+            // outlineColor: "red",
+          }}
         >
           Next
         </Button>

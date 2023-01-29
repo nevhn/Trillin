@@ -11,7 +11,7 @@ if (!container) throw new Error("Failed to find the root element");
 const root = ReactDOM.createRoot(container);
 const domain = process.env.REACT_APP_AUTH0_DOMAIN as string;
 const clientId = process.env.REACT_APP_CLIENTID as string;
-console.log(window.location.origin);
+// console.log(window.location.origin);
 
 root.render(
   <React.StrictMode>

@@ -48,14 +48,14 @@ export const Movie = (props: any) => {
     );
     if (isFavorite) {
       /**Understand this logic more */
-      console.log("current state: ", isFavorite);
+      // console.log("current state: ", isFavorite);
       const newArr = localFavorites?.filter((obj: any) => obj.id != movie.id);
       localStorage.setItem("favorites", JSON.stringify(newArr));
       return;
     }
     const arr = [...localFavorites, movie];
     localStorage.setItem("favorites", JSON.stringify(arr));
-    console.log(`added ${movie.id} to the completed list`);
+    // console.log(`added ${movie.id} to the completed list`);
   };
 
   /**TODO Completed the rest of this follow add to favor code */
@@ -71,7 +71,7 @@ export const Movie = (props: any) => {
     }
     const arr = [...localCompleted, movie];
     localStorage.setItem("completed", JSON.stringify(arr));
-    console.log(`added ${movie.id} to the completed list`);
+    // console.log(`added ${movie.id} to the completed list`);
   };
 
   const addToWatchLater = () => {
@@ -86,7 +86,7 @@ export const Movie = (props: any) => {
     }
     const arr = [...localWatchLater, movie];
     localStorage.setItem("watch-later", JSON.stringify(arr));
-    console.log(`added ${movie.id} to watch later`);
+    // console.log(`added ${movie.id} to watch later`);
   };
 
   const initializeLocalFavorites = () => {
@@ -138,13 +138,13 @@ export const Movie = (props: any) => {
     <Box
       key={movie.id}
       className="movie"
-      bg="red"
+      bg="red.600"
       overflow={"hidden"}
       pos={"relative"}
       w={"300px"}
       onMouseEnter={onToggle}
       onMouseLeave={onToggle}
-      onClick={() => console.log(movie.id)}
+      // onClick={() => console.log(movie.id)}
     >
       <Img
         w={"100%"}
@@ -167,7 +167,7 @@ export const Movie = (props: any) => {
         </Heading>
         <Text
           as="span"
-          color="#2891FC"
+          color="darkgray"
           fontWeight="bold"
           padding="0.25rem 0.5rem"
         >

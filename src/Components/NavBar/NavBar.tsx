@@ -27,6 +27,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
+import "transition-style";
+
 export const NavBar = () => {
   const navigate = useNavigate();
 
@@ -75,7 +77,7 @@ export const NavBar = () => {
   const handleSearchSubmission = async (e: any) => {
     e.preventDefault();
     if (!query.length) {
-      console.log("0");
+      // console.log("0");
       return;
     }
     movieContext?.setPage(1);
@@ -84,7 +86,7 @@ export const NavBar = () => {
 
   const handleLogin = () => {
     loginWithRedirect();
-    console.log("helllo");
+    console.log("welcome");
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -126,7 +128,14 @@ export const NavBar = () => {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex alignItems={"center"} gap="6">
             <Heading color="white" fontWeight={"black"} textAlign="center">
-              <Link _hover={{ textDecoration: "none" }} href={"/"}>
+              <Link
+                _hover={{
+                  textDecoration: "none",
+                  color: "red",
+                  "transition-style": "in:circle:bottom-right",
+                }}
+                href={"/"}
+              >
                 Trillin
               </Link>
             </Heading>
@@ -161,13 +170,16 @@ export const NavBar = () => {
                     placeholder="Search movie"
                     padding={"10px 10px 10px 5px"}
                     border="none"
-                    borderRadius={0}
-                    borderBottom="1px solid white"
+                    borderRadius={8}
+                    // borderBottom="2px solid white"
+                    backgroundColor={"gray.700"}
                     _focusVisible={{
                       outline: "none",
-                      borderBottomColor: "red",
+                      //   // borderColor: "red",
+                      //   outlineColor: "white",
+                      //   outlineWidth: "1px",
                     }}
-                    _hover={{ borderBottomColor: "red" }}
+                    // _hover={{ borderBottomColor: "red" }}
                     value={query}
                     onChange={(e) => handleInputChange(e.target.value)}
                   />
@@ -237,12 +249,12 @@ export const NavBar = () => {
                 {!isAuthenticated && !isLoading ? (
                   <Box ml="-12">
                     <Button
-                      outlineColor={"red"}
-                      bgColor="black"
+                      outlineColor={"transparent"}
+                      bgColor="red"
                       _hover={{
-                        bgColor: "red",
+                        bgColor: "red.600",
                         color: "white",
-                        outlineColor: "transparent",
+                        // outlineColor: "red",
                       }}
                       onClick={handleLogin}
                     >

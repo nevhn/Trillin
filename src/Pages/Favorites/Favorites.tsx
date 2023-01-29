@@ -9,7 +9,7 @@ export const Favorites = () => {
 
   return isAuthenticated ? (
     <>
-      <Center mt="1rem">
+      <Center mt="1rem" h="100%">
         <Heading as="h1" size="4xl">
           {user?.nickname}'s favorites
         </Heading>
@@ -22,6 +22,7 @@ export const Favorites = () => {
         flexWrap={"wrap"}
         justifyContent="center"
         align-items="center"
+        // minH="78vh"
         mt="1rem"
         p="1"
         gap="1rem"
