@@ -17,7 +17,7 @@ export const Footer = () => {
       color="white"
     >
       <Text fontSize={14}>
-        &copy; {new Date().getFullYear()} Christopher Luna
+        &copy; {new Date().getFullYear()} Exhaustcs
         <IconButton
           as="a"
           href="https://github.com/exhaustcs"
