@@ -17,7 +17,7 @@ export const Footer = () => {
       color="white"
     >
       <Text fontSize={14}>
-        &copy; {new Date().getFullYear()} Exhaustcs
+        &copy; {new Date().getFullYear()} Nevhn
         <IconButton
           as="a"
           href="https://github.com/nevhn"
