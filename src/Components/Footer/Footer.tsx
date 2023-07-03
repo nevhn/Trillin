@@ -20,7 +20,7 @@ export const Footer = () => {
         &copy; {new Date().getFullYear()} Exhaustcs
         <IconButton
           as="a"
-          href="https://github.com/exhaustcs"
+          href="https://github.com/nevhn"
           aria-label="GitHub"
           background={"transparent"}
           icon={<FaGithub fontSize="1.25rem" />}
